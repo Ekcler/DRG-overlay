@@ -175,17 +175,28 @@ app.whenReady().then(() => {
   ipcMain.on('update-hotkeys', (event, hotkeys) => {
     globalShortcut.unregisterAll();
     
-    if (hotkeys.show) {
-      globalShortcut.register(hotkeys.show, toggleOverlay);
-    }
-    if (hotkeys.exit) {
-      globalShortcut.register(hotkeys.exit, () => app.quit());
-    }
-    if (hotkeys.lang) {
-      globalShortcut.register(hotkeys.lang, () => {
-        if (mainWindow) mainWindow.webContents.send('toggle-lang');
-      });
-    }
+    const validKey = (key) => {
+      if (!key || typeof key !== 'string') return false;
+      if (/^[A-Z0-9]$/.test(key)) return true;
+      const validSpecial = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12','F13','F14','F15','F16','F17','F18','F19','F20','F21','F22','F23','F24','Space','Tab','Enter','Backspace','Delete','Insert','Return','Up','Down','Left','Right','Home','End','PageUp','PageDown','Escape','PrintScreen','VolumeUp','VolumeDown','VolumeMute','MediaNextTrack','MediaPreviousTrack','MediaStop','MediaPlayPause'];
+      return validSpecial.includes(key);
+    };
+    
+    const safeRegister = (accelerator, callback) => {
+      try {
+        if (validKey(accelerator)) {
+          globalShortcut.register(accelerator, callback);
+        }
+      } catch (e) {
+        console.error('Failed to register hotkey:', accelerator, e);
+      }
+    };
+    
+    safeRegister(hotkeys.show, toggleOverlay);
+    safeRegister(hotkeys.exit, () => app.quit());
+    safeRegister(hotkeys.lang, () => {
+      if (mainWindow) mainWindow.webContents.send('toggle-lang');
+    });
   });
   
   ipcMain.on('unregister-hotkeys', () => {
