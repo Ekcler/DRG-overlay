@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRG Builds</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: #0d1117;
+      overflow: hidden;
+    }
+    
+    .overlay {
+      width: 100%;
+      height: 100vh;
+      min-width: 400px;
+      min-height: 300px;
+      background: linear-gradient(145deg, #0d1117 0%, #0a0e12 50%, #0d1117 100%);
+      border: 2px solid #2d333b;
+      border-radius: 16px;
+      color: #e8e8e8;
+      box-shadow: 
+        0 0 60px rgba(74, 156, 45, 0.15),
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      opacity: 0;
+      transform: scale(0.96);
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: auto;
+      pointer-events: auto;
+    }
+    
+    .header, .header *,
+.controls, .controls *,
+.tab-btn, .tab-btn *,
+.class-btn, .class-btn *,
+.weapon-btn, .weapon-btn *,
+.modal-close, .modal-close *,
+.setting-input, .setting-input *,
+.form-input, .form-input *,
+.form-select, .form-select *,
+.form-textarea, .form-textarea *,
+.back-btn, .back-btn * {
+  -webkit-app-region: no-drag;
+}
+    
+    .overlay.visible {
+      pointer-events: auto;
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+
+    
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(45, 51, 59, 0.5);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+  height: 50px;
+  box-sizing: border-box;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1001;
+}
+.header * {
+  -webkit-app-region: no-drag;
+}
+    
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: auto;
+    }
+    
+    .logo {
+    }
+    
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4a9c2d;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(74, 156, 45, 0.4);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 6px;
+      pointer-events: auto;
+    }
+    
+    .icon-btn {
+      background: #1a1f26;
+      border: 1px solid #2d333b;
+      color: #888;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .icon-btn:hover {
+      background: #252b33;
+      color: #aaa;
+      transform: scale(1.05);
+    }
+    
+    .close-btn {
+      background: linear-gradient(135deg, #c93a3a, #a32e2e);
+      border: none;
+      color: white;
+    }
+    
+    .close-btn:hover {
+      background: linear-gradient(135deg, #e04545, #c93a3a);
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(45, 51, 59, 0.5);
+      pointer-events: auto;
+    }
+    
+    .tab-btn {
+      flex: 1;
+      padding: 10px 16px;
+      background: #12161c;
+      border: 2px solid #2d333b;
+      border-radius: 8px;
+      color: #666;
+      cursor: pointer;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .tab-btn:hover {
+      transform: translateY(-2px);
+      color: #aaa;
+    }
+    
+    .tab-btn.active {
+      background: linear-gradient(135deg, #1a2a1c, #0f1a10);
+      border-color: #3a7a22;
+      color: #6abc4d;
+      box-shadow: 0 0 10px rgba(74, 156, 45, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tab-btn[data-tab="mybuilds"].active {
+      background: linear-gradient(135deg, #1a2a3a, #0f1520);
+      border-color: #3a6f99;
+      color: #6a9fc9;
+      box-shadow: 0 0 10px rgba(74, 143, 201, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .class-select {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .class-btn {
+      flex: 1;
+      padding: 10px 6px;
+      background: #12161c;
+      border: 2px solid #2d333b;
+      border-radius: 10px;
+      color: #666;
+      cursor: pointer;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    
+    .class-btn .icon {
+      font-size: 18px;
+      line-height: 1;
+      transition: transform 0.3s ease;
+    }
+    
+    .class-btn .class-icon {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+    
+    .class-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .class-btn:hover .icon {
+      transform: scale(1.15);
+    }
+    
+    .class-btn.gunner { color: #5a8c4d; }
+    .class-btn.gunner:hover, .class-btn.gunner.active {
+      background: linear-gradient(135deg, #1a2a1c, #0f1a10);
+      border-color: #3a7a22;
+      box-shadow: 0 0 12px rgba(74, 156, 45, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .class-btn.engineer { color: #c05555; }
+    .class-btn.engineer:hover, .class-btn.engineer.active {
+      background: linear-gradient(135deg, #2a1a1c, #1a0f10);
+      border-color: #a03535;
+      box-shadow: 0 0 12px rgba(224, 85, 85, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .class-btn.driller { color: #c4a017; }
+    .class-btn.driller:hover, .class-btn.driller.active {
+      background: linear-gradient(135deg, #2a2116, #1a150f);
+      border-color: #a07010;
+      box-shadow: 0 0 12px rgba(212, 160, 23, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .class-btn.scout { color: #5a8fa9; }
+    .class-btn.scout:hover, .class-btn.scout.active {
+      background: linear-gradient(135deg, #162a3a, #0f1a25);
+      border-color: #3a6f99;
+      box-shadow: 0 0 12px rgba(74, 143, 201, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .weapon-select {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.15);
+      width: 100%;
+      height: 70%;
+      box-sizing: border-box;
+    }
+    
+    .weapon-btn {
+      background: #12161c;
+      border: 1px solid #2d333b;
+      border-radius: 6px;
+      color: #888;
+      cursor: pointer;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 55px;
+      padding: 8px;
+      font-feature-settings: "liga" 1, "kern" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-variant-numeric: tabular-nums;
+      font-size-adjust: 0.55;
+    }
+    
+    .weapon-btn:hover {
+      background: #1a2028;
+      color: #aaa;
+    }
+    
+    .weapon-btn.active {
+      background: #1a2530;
+      border-color: #4a8fc9;
+      color: #4a8fc9;
+    }
+    
+    .search-box {
+      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(45, 51, 59, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .search-input {
+      flex: 1;
+      background: #12161c;
+      border: 1px solid #2d333b;
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #e8e8e8;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    
+    .search-input:focus {
+      border-color: #4a9c2d;
+    }
+    
+    .search-input::placeholder {
+      color: #6a7a8a;
+    }
+    
+    .search-clear {
+      color: #6a7a8a;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+    
+    .search-clear:hover {
+      color: #c93a3a;
+    }
+    
+    .builds-container {
+      padding: 12px 16px;
+      padding-bottom: 60px;
+      height: calc(100vh - 260px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #3d434b #0d1117;
+      scroll-behavior: smooth;
+      overscroll-behavior: contain;
+    }
+    
+    .builds-container.full-height {
+      height: calc(100vh - 200px);
+    }
+    
+    .builds-container::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .builds-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .builds-container::-webkit-scrollbar-thumb {
+      background: #2d333b;
+      border-radius: 2px;
+    }
+    
+    .builds-container::-webkit-scrollbar-thumb:hover {
+      background: #3d434b;
+    }
+    
+    .build {
+      background: linear-gradient(145deg, #13181e, #0f1216);
+      border: 1px solid #2d333b;
+      border-radius: 10px;
+      padding: 8px;
+      padding-bottom: 10px;
+      margin-bottom: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .build.animate {
+      animation: fadeSlideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .build:last-child {
+      margin-bottom: 12px;
+    }
+    
+    .build::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--class-color, #4a9c2d), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .build:hover {
+      transform: translateY(-2px) scale(1.005);
+      border-color: var(--class-color, #4a9c2d);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), 0 0 15px rgba(74, 156, 45, 0.08);
+    }
+    
+    .build:hover::before {
+      opacity: 1;
+    }
+    
+    .build-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--class-color, #4a9c2d);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .build-section {
+      margin-bottom: 4px;
+    }
+    
+    .build-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .build-section-title {
+      font-size: 10px;
+      color: #a0afbc;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2px;
+      font-weight: 700;
+    }
+    
+    .build-section-content {
+      font-size: 15px !important;
+      color: #ffffff;
+      line-height: 1.4;
+      font-weight: 700;
+      font-feature-settings: "liga" 1, "kern" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-variant-numeric: tabular-nums;
+      font-size-adjust: 0.55;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    
+    .weapon-text {
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    .weapon-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+    }
+
+    .build-numbers {
+      font-weight: 700;
+      color: #FFB300;
+      margin-left: 6px;
+    }
+    
+    .build-section.perks .build-section-title {
+      color: #d4a017;
+    }
+    
+    .build-section.notes {
+      margin-top: 12px;
+      padding-top: 14px;
+      padding-bottom: 8px;
+      border-top: 1px solid rgba(45, 51, 59, 0.4);
+    }
+    
+    .build-section.notes .build-section-title {
+      color: #8a9aaa;
+    }
+    
+    .build-section.notes .build-section-content {
+      color: #a8b2c0;
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    
+    .perk-tier {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    
+    .perk-tier.S { background: #c93a3a; color: white; }
+    .perk-tier.A { background: #e05555; color: white; }
+    .perk-tier.B { background: #d4a017; color: black; }
+    .perk-tier.C { background: #6a7a8a; color: white; }
+    .perk-tier.D { background: #4a4a4a; color: #aaa; }
+    
+    .perk-category {
+      font-size: 14px;
+      font-weight: 700;
+      color: #4a9c2d;
+      margin-top: 20px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    
+    .perk-category:first-child {
+      margin-top: 0;
+    }
+    
+    .perk-category.S { 
+      color: #ff3333; 
+      background: rgba(255, 51, 51, 0.15);
+      border: 1px solid #ff3333;
+      text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+    }
+    .perk-category.A { 
+      color: #ff6b35; 
+      background: rgba(255, 107, 53, 0.15);
+      border: 1px solid #ff6b35;
+      text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+    }
+    .perk-category.B { 
+      color: #ffd700; 
+      background: rgba(255, 215, 0, 0.15);
+      border: 1px solid #ffd700;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    .perk-category.C { 
+      color: #4ecdc4; 
+      background: rgba(78, 205, 196, 0.15);
+      border: 1px solid #4ecdc4;
+      text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+    }
+    .perk-category.D { 
+      color: #9b59b6; 
+      background: rgba(155, 89, 182, 0.15);
+      border: 1px solid #9b59b6;
+      text-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+    }
+    
+    .perk-category.ultimate { 
+      color: #ff00ff; 
+      background: rgba(255, 0, 255, 0.1);
+      border: 1px solid #ff00ff;
+      text-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+      margin-top: 30px;
+      font-size: 18px;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+    }
+    
+    .ultimate-section {
+      background: rgba(255, 0, 255, 0.05);
+      border: 1px solid rgba(255, 0, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 8px;
+    }
+    
+    .ultimate-label {
+      color: #ff00ff;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      padding-left: 8px;
+    }
+    
+    .ultimate-perks {
+      color: #e8e8e8;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+    
+    .ultimate-perks:last-child {
+      margin-bottom: 0;
+    }
+    
+    .ult-perk {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 16px;
+      margin-bottom: 6px;
+    }
+    
+    .ult-icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      opacity: 0.9;
+    }
+    
+.perk-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 4px;
+  min-height: 70px;
+}
+    
+    .perk-item:last-child {
+      border-bottom: none;
+    }
+    
+.perk-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  height: 20px;
+  line-height: 20px;
+  overflow: hidden;
+}
+    
+.perk-desc {
+  font-size: 13px;
+  color: #b0bcc8;
+  line-height: 1.4;
+  max-height: 4.2em; /* ровно 3 строки */
+  overflow: hidden;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+    
+    .oc-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(45, 51, 59, 0.3);
+    }
+    
+    .oc-item:last-child {
+      border-bottom: none;
+    }
+    
+    .oc-tier {
+      font-size: 40px;
+      font-weight: 700;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      flex-shrink: 0;
+      line-height: 1;
+      background: transparent !important;
+      color: #ffffff !important;
+    }
+    
+    .oc-tier.S { color: #c93a3a !important; }
+    .oc-tier.A { color: #e05555 !important; }
+    .oc-tier.B { color: #d4a017 !important; }
+    .oc-tier.C { color: #4a9c2d !important; }
+    
+    .oc-info {
+      flex: 1;
+      padding-top: 2px;
+    }
+    
+    .oc-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    
+    .oc-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 200px;
+      position: relative;
+      padding: 0;
+      box-sizing: border-box;
+      background: none;
+      border-radius: 0;
+    }
+    
+    .oc-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border-radius: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+    
+    .oc-icon.clean::before { background-image: url('kloki png/Frame_Overclock_Clean.png'); }
+    .oc-icon.balanced::before { background-image: url('kloki png/Frame_Overclock_Balanced.png'); }
+    .oc-icon.unstable::before { background-image: url('kloki png/Frame_Overclock_Unstable.png'); }
+    
+    .oc-icon img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .oc-type {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      opacity: 1;
+    }
+    
+    .oc-desc {
+      font-size: 13px;
+      color: #b0bcc8;
+      line-height: 1.5;
+    }
+    
+    .oc-type.clean { color: #4a9c2d; }
+    .oc-type.balanced { color: #d4a017; }
+    .oc-type.unstable { color: #e05555; }
+    
+    
+    .build-section .oc-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 2px;
+      border-left: 3px solid currentColor;
+      display: inline-block;
+      padding-left: 5px;
+    }
+    
+    .build-section .oc-name.clean { color: #4a9c2d; }
+    .build-section .oc-name.balanced { color: #d4a017; }
+    .build-section .oc-name.unstable { color: #e05555; }
+    
+    .build-section .oc-name .oc-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      margin-left: 6px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
+    .build-section .oc-name .oc-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .build-section-content .oc-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      min-width: 100px;
+      min-height: 100px;
+      position: relative;
+      padding: 0;
+      box-sizing: border-box;
+      vertical-align: middle;
+      margin-left: 10px;
+      background: none;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+    
+    .build-section-content .oc-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border-radius: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+    
+    .build-section-content .oc-icon.clean::before { 
+      background-image: url('kloki png/Frame_Overclock_Clean.png');
+    }
+    .build-section-content .oc-icon.balanced::before { 
+      background-image: url('kloki png/Frame_Overclock_Balanced.png');
+    }
+    .build-section-content .oc-icon.unstable::before { 
+      background-image: url('kloki png/Frame_Overclock_Unstable.png');
+    }
+    
+    .build-section-content .oc-icon img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .build-section .perks-content {
+      color: #d0d8e4;
+    }
+    
+    .my-builds-form {
+      padding: 16px;
+    }
+    
+    .form-group {
+      margin-bottom: 12px;
+    }
+    
+    .form-label {
+      font-size: 10px;
+      color: #6a7a8a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      display: block;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #12161c;
+      border: 1px solid #2d333b;
+      border-radius: 8px;
+      color: #e8e8e8;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 13px;
+      transition: border-color 0.2s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #4a9c2d;
+    }
+    
+    .form-input.error {
+      border-color: #c93a3a;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      background: #12161c;
+      border: 1px solid #2d333b;
+      border-radius: 8px;
+      color: #e8e8e8;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 13px;
+    }
+    
+    .form-select option {
+      background: #12161c;
+    }
+    
+    .form-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: #12161c;
+      border: 1px solid #2d333b;
+      border-radius: 8px;
+      color: #e8e8e8;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 13px;
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    .form-textarea:focus {
+      outline: none;
+      border-color: #4a9c2d;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    
+    .form-btn {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .form-btn.primary {
+      background: linear-gradient(135deg, #4a9c2d, #3a7a22);
+      color: white;
+    }
+    
+    .form-btn.primary:hover {
+      background: linear-gradient(135deg, #5aac3d, #4a9c2d);
+    }
+    
+    .form-btn.secondary {
+      background: #1a1f26;
+      border: 1px solid #2d333b;
+      color: #888;
+    }
+    
+    .form-btn.secondary:hover {
+      background: #252b33;
+      color: #aaa;
+    }
+    
+    .my-builds-list {
+      padding: 0 16px 16px;
+    }
+    
+    .my-builds-list .build {
+      cursor: pointer;
+    }
+    
+    .my-builds-list .build:hover::before {
+      opacity: 1;
+    }
+    
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 68px;
+      background: rgba(201, 58, 58, 0.3);
+      border: none;
+      color: #c93a3a;
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .favorite-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #d4a017;
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 28px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.6;
+      padding: 0;
+    }
+    
+    .favorite-btn:hover {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    
+    .edit-btn {
+      position: absolute;
+      top: 10px;
+      right: 126px;
+      background: rgba(74, 143, 201, 0.3);
+      border: none;
+      color: #4a8fc9;
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .build:hover .delete-btn,
+    .build:hover .edit-btn {
+      opacity: 1;
+    }
+    
+    .hint {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #8a9aaa;
+      font-weight: 500;
+      letter-spacing: 1px;
+      background: #0d1117;
+      border-top: 1px solid rgba(45, 51, 59, 0.5);
+      z-index: 1000;
+    }
+    
+    .hint span {
+      color: #5a8c4d;
+      font-weight: 700;
+      padding: 2px 6px;
+      background: rgba(74, 156, 45, 0.2);
+      border-radius: 3px;
+      margin: 0 2px;
+    }
+    
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 8px var(--class-color, #4a9c2d)); }
+      50% { filter: drop-shadow(0 0 15px var(--class-color, #4a9c2d)); }
+    }
+    
+    .class-btn.active .icon {
+      animation: glow 2s ease-in-out infinite;
+    }
+    
+    .resize-handle {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      cursor: nwse-resize;
+      background: linear-gradient(135deg, transparent 50%, #3d434b 50%);
+      border-radius: 0 0 14px 0;
+    }
+    
+    .overlay::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .back-btn {
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #1a2a1c, #0f1a10);
+      border: 1px solid #4a9c2d;
+      border-radius: 8px;
+      color: #4a9c2d;
+      cursor: pointer;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      margin-bottom: 12px;
+    }
+    
+    .back-btn:hover {
+      background: linear-gradient(135deg, #2a3a2c, #1a2a1c);
+      color: #6abc4d;
+      transform: translateY(-1px);
+    }
+    
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+    
+.modal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+    
+.modal {
+  background: linear-gradient(145deg, #13181e, #0f1216);
+  border: 1px solid #2d333b;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  transform: scale(0.9);
+  transition: transform 0.3s;
+  position: relative;
+  z-index: 101;
+}
+.overlay:not(.visible) .modal {
+  transform: scale(0.9);
+}
+    
+    .modal-overlay.visible .modal {
+      transform: scale(1);
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4a9c2d;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(45, 51, 59, 0.3);
+    }
+    
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+    
+    .setting-label {
+      font-size: 14px;
+      color: #d0d8e4;
+    }
+    
+    .setting-input {
+      background: #12161c;
+      border: 1px solid #2d333b;
+      border-radius: 6px;
+      color: #e8e8e8;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 12px;
+      width: 120px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .setting-input:hover {
+      border-color: #4a9c2d;
+    }
+    
+.modal-close {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #4a9c2d, #3a7a22);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modal-close:hover {
+  background: linear-gradient(135deg, #5aac3d, #4a9c2d);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(74, 156, 45, 0.3);
+}
+.modal-close:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+    
+    .modal-close:hover {
+      background: linear-gradient(135deg, #5aac3d, #4a9c2d);
+    }
+      .perk-columns {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .perk-column {
+      flex: 1;
+    }
+    .perk-column-sub {
+      font-size: 11px;
+      color: #8a9aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+   #drag-region {
+       height: 30px;
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 120px;
+       cursor: move;
+       background: transparent;
+       z-index: 9999;
+       -webkit-user-select: none;
+       user-select: none;
+       -webkit-app-region: drag;
+     }
+    
+    #drag-region:active {
+      cursor: grabbing;
+    }
+  </style>
+ </head>
+<body>
+    <div class="overlay" id="overlay">
+      <div id="drag-region"></div>
+      <div class="header">
+        <div class="logo-section">
+          <div class="logo-text">⛏ DEEP ROCK GALACTIC BUILDS</div>
+        </div>
+        <div class="controls">
+          <button class="icon-btn" id="settingsBtn" onclick="openSettings()">⚙</button>
+          <button class="icon-btn" id="langBtn" onclick="toggleLang()">EN</button>
+          <button class="icon-btn close-btn" onclick="closeOverlay()">✕</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="builds" onclick="switchTab('builds')" id="tabBuilds">Билды</button>
+        <button class="tab-btn" data-tab="ocs" onclick="switchTab('ocs')" id="tabOCs">Клоки</button>
+        <button class="tab-btn" data-tab="mybuilds" onclick="switchTab('mybuilds')" id="tabMyBuilds">Мои билды</button>
+        <button class="tab-btn" data-tab="perks" onclick="switchTab('perks')" id="tabPerks">Перки</button>
+      </div>
+
+      <div id="classSelect" class="class-select">
+        <button class="class-btn gunner active" data-class="gunner" onclick="selectClass('gunner')">
+          <img class="class-icon" src="class_icons/Gunner_icon.png" alt="Gunner">
+          <span>Gunner</span>
+        </button>
+        <button class="class-btn engineer" data-class="engineer" onclick="selectClass('engineer')">
+          <img class="class-icon" src="class_icons/Engineer_icon.png" alt="Engineer">
+          <span>Engineer</span>
+        </button>
+        <button class="class-btn driller" data-class="driller" onclick="selectClass('driller')">
+          <img class="class-icon" src="class_icons/Driller_icon.png" alt="Driller">
+          <span>Driller</span>
+        </button>
+        <button class="class-btn scout" data-class="scout" onclick="selectClass('scout')">
+          <img class="class-icon" src="class_icons/Scout_icon.png" alt="Scout">
+          <span>Scout</span>
+        </button>
+      </div>
+
+      <div id="weaponSelect" class="weapon-select" style="display: none;"></div>
+
+      <div class="search-box" id="searchBox">
+        <input type="text" id="buildSearch" class="search-input" placeholder="Поиск по оружию или клокам...">
+        <span class="search-clear" id="searchClear">&times;</span>
+      </div>
+
+      <div class="builds-container" id="buildsContainer"></div>
+
+      <div class="hint" id="hint">
+        <span>F5</span> Show | <span>F6</span> Exit | <span>F7</span> Lang
+      </div>
+    
+      <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+          <div class="modal-title" id="settingsTitle">Настройки</div>
+          <div id="settingsContent"></div>
+          <button class="modal-close" id="settingsCloseBtn">Закрыть</button>
+        </div>
+      </div>
+    </div>
+
+  <script>
+    let buildsData = {};
+    let myBuilds = [];
+    let currentTab = 'builds';
+    let currentClass = 'gunner';
+    let currentWeapon = null;
+    let lang = 'ru';
+    let searchQuery = '';
+    let viewState = 'class';
+    let shouldAnimate = true;
+let hotkeys = {
+  show: 'F5',
+  exit: 'F6',
+  lang: 'F7'
+};
+let lastWeaponByClass = {};
+    
+    const classColors = {
+      gunner: '#4a9c2d',
+      engineer: '#e05555',
+      driller: '#d4a017',
+      scout: '#4a8fc9'
+    };
+    
+    const weaponNames = {
+      gunner: {
+        ru: ['Миниган "Свинцовый шторм"', 'Тяжёлая автопушка "Грозовая туча"', 'Ракетный комплекс "Ураган"', 'Тяжёлый револьвер "Бульдог"', 'Пистолет-пулемёт BRT7', 'Гаусс-пушка "ARMSKORE"'],
+        en: ['"Lead Storm" Powered Minigun', '"Thunderhead" Heavy Autocannon', '"Hurricane" Guided Rocket System', '"Bulldog" Heavy Revolver', 'BRT7 Burst Fire Gun', 'ArmsKore Coil Gun']
+      },
+      engineer: {
+        ru: ['"Вепрь" Авто 210', 'Электризующий ПП "Крепыш"', 'Умная винтовка LOK-1', 'DEEPcore 40 мм', 'Плазменный резак', 'Дифракционный расщепитель'],
+        en: ['"Warthog" Auto 210', '"Stubby" Voltaic SMG', 'LOK-1 Smart Rifle', 'Deepcore 40mm PGL', 'Breach Cutter', 'Shard Diffractor']
+      },
+      driller: {
+        ru: ['Огнемёт CRSPR', 'Криопушка', 'Кислотный слиземёт', 'Субата 120', 'Экспериментальный плазмозарядник', 'СВЧ-излучатель "COLLETE"'],
+        en: ['CRSPR Flamethrower', 'Cryo Cannon', 'Corrosive Sludge Pump', 'Subata 120', 'Experimental Plasma Charger', 'Colette Wave Cooker']
+      },
+      scout: {
+        ru: ['Автомат DEEPCORE GK2', 'Классическая винтовка M1000', 'Плазменный карабин DRAK-25', 'Самодельная бум-палка', 'Жуковы NUK17', 'Арбалет "Нишанка" X-80'],
+        en: ['Deepcore GK2', 'M1000 Classic', 'DRAK-25 Plasma Carbine', 'Jury-Rigged Boomstick', 'Zhukov NUK17', 'Nishanka Boltshark X-80']
+      }
+    };
+    
+    const weaponKeys = {
+      gunner: ['Миниган "Свинцовый шторм"', 'Тяжёлая автопушка "Грозовая туча"', 'Ракетный комплекс "Ураган"', 'Тяжёлый револьвер "Бульдог"', 'Пистолет-пулемёт BRT7', 'Гаусс-пушка "ARMSKORE"'],
+      engineer: ['"Вепрь" Авто 210', 'Электризующий ПП "Крепыш"', 'Умная винтовка LOK-1', 'DEEPcore 40 мм', 'Плазменный резак', 'Дифракционный расщепитель'],
+      driller: ['Огнемёт CRSPR', 'Криопушка', 'Кислотный слиземёт', 'Субата 120', 'Экспериментальный плазмозарядник', 'СВЧ-излучатель "COLLETE"'],
+      scout: ['Автомат DEEPCORE GK2', 'Классическая винтовка M1000', 'Плазменный карабин DRAK-25', 'Самодельная бум-палка', 'Жуковы NUK17', 'Арбалет "Нишанка" X-80']
+    };
+
+    const weaponKeyToEn = {
+      'Миниган "Свинцовый шторм"': '"Lead Storm" Powered Minigun',
+      'Тяжёлая автопушка "Грозовая туча"': '"Thunderhead" Heavy Autocannon',
+      'Ракетный комплекс "Ураган"': '"Hurricane" Guided Rocket System',
+      'Тяжёлый револьвер "Бульдог"': '"Bulldog" Heavy Revolver',
+      'Пистолет-пулемёт BRT7': 'BRT7 Burst Fire Gun',
+      'Гаусс-пушка "ARMSKORE"': 'ArmsKore Coil Gun',
+      '"Вепрь" Авто 210': '"Warthog" Auto 210',
+      'Электризующий ПП "Крепыш"': '"Stubby" Voltaic SMG',
+      'Умная винтовка LOK-1': 'LOK-1 Smart Rifle',
+      'DEEPcore 40 мм': 'Deepcore 40mm PGL',
+      'Плазменный резак': 'Breach Cutter',
+      'Дифракционный расщепитель': 'Shard Diffractor',
+      'Огнемёт CRSPR': 'CRSPR Flamethrower',
+      'Криопушка': 'Cryo Cannon',
+      'Кислотный слиземёт': 'Corrosive Sludge Pump',
+      'Субата 120': 'Subata 120',
+      'Экспериментальный плазмозарядник': 'Experimental Plasma Charger',
+      'СВЧ-излучатель "COLLETE"': 'Colette Wave Cooker',
+      'Автомат DEEPCORE GK2': 'Deepcore GK2',
+      'Классическая винтовка M1000': 'M1000 Classic',
+      'Плазменный карабин DRAK-25': 'DRAK-25 Plasma Carbine',
+      'Самодельная бум-палка': 'Jury-Rigged Boomstick',
+      'Жуковы NUK17': 'Zhukov NUK17',
+      'Арбалет "Нишанка" X-80': 'Nishanka Boltshark X-80'
+    };
+    
+    const enToRuWeaponKey = {
+      '"Lead Storm" Powered Minigun': 'Миниган "Свинцовый шторм"',
+      '"Thunderhead" Heavy Autocannon': 'Тяжёлая автопушка "Грозовая туча"',
+      '"Hurricane" Guided Rocket System': 'Ракетный комплекс "Ураган"',
+      '"Bulldog" Heavy Revolver': 'Тяжёлый револьвер "Бульдог"',
+      'BRT7 Burst Fire Gun': 'Пистолет-пулемёт BRT7',
+      'ArmsKore Coil Gun': 'Гаусс-пушка "ARMSKORE"',
+      '"Warthog" Auto 210': '"Вепрь" Авто 210',
+      '"Stubby" Voltaic SMG': 'Электризующий ПП "Крепыш"',
+      'LOK-1 Smart Rifle': 'Умная винтовка LOK-1',
+      'Deepcore 40mm PGL': 'DEEPcore 40 мм',
+      'Breach Cutter': 'Плазменный резак',
+      'Shard Diffractor': 'Дифракционный расщепитель',
+      'CRSPR Flamethrower': 'Огнемёт CRSPR',
+      'Cryo Cannon': 'Криопушка',
+      'Corrosive Sludge Pump': 'Кислотный слиземёт',
+      'Subata 120': 'Субата 120',
+      'Experimental Plasma Charger': 'Экспериментальный плазмозарядник',
+      'Colette Wave Cooker': 'СВЧ-излучатель "COLLETE"',
+      'Deepcore GK2': 'Автомат DEEPCORE GK2',
+      'M1000 Classic': 'Классическая винтовка M1000',
+      'DRAK-25 Plasma Carbine': 'Плазменный карабин DRAK-25',
+      'Jury-Rigged Boomstick': 'Самодельная бум-палка',
+      'Zhukov NUK17': 'Жуковы NUK17',
+      'Nishanka Boltshark X-80': 'Арбалет "Нишанка" X-80'
+    };
+    
+    
+    
+    const ocIcons = {
+      ru: {
+        'Чуть больше мощи!': 'Icon_Upgrade_Damage.png',
+        'Тонкостенный барабан': 'Icon_Upgrade_Cooling.png',
+        'Роторная перегрузка': 'Icon_Upgrade_Cooling.png',
+        'Улучшенный газоотвод': 'Icon_Upgrade_Damage.png',
+        'Пылающий ад': 'Icon_Upgrade_Heat.png',
+        'Компактный механизм подачи': 'Icon_Upgrade_Total_Ammo.png',
+        'Свинцовый шторм': 'Icon_Upgrade_Damage.png',
+        'Ад из пуль': 'Icon_Upgrade_Ricoshet.png',
+        'Композитные барабаны': 'Icon_Upgrade_Total_Ammo.png',
+        'Разрывные снаряды': 'Icon_Upgrade_Area.png',
+        'Боевая мобильность': 'Icon_Upgrade_MovementSpeed.png',
+        'Ковровый бомбардировщик': 'Icon_Upgrade_Area_Damage.png',
+        'Мортирные снаряды': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Большая Берта': 'Icon_Upgrade_Damage.png',
+        'Боезаряд с нейротоксином': 'Icon_Overclock_Neuro.png',
+        'Переделанный механизм подачи': 'Icon_Upgrade_RateOfFire.png',
+        'Осколочные ракеты': 'Icon_Upgrade_Area.png',
+        'Ракеты с плазмозарядом': 'Icon_Upgrade_Blow_Through.png',
+        'Миноукладчик': 'Icon_Upgrade_Special.png',
+        'Самопальное реактивное топливо': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Залповый модуль': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Ракетный шквал': 'Icon_Upgrade_Reach.png',
+        'Кластерные заряды': 'Icon_Overclock_Special_Magazine.png',
+        'Цепь попаданий': 'Icon_Upgrade_Ricoshet.png',
+        'Самопальный порох': 'Icon_Overclock_ChangeOfHigherDamage.png',
+        'Шестистрел': 'Icon_Upgrade_Magazine_Size.png',
+        'Нестабильные пули': 'Icon_Upgrade_Heat.png',
+        'Магические пули': 'Icon_Upgrade_Ricoshet.png',
+        'Слонобойные патроны': 'Icon_Upgrade_Damage.png',
+        'Композитные гильзы': 'Icon_Upgrade_RateOfFire.png',
+        'Полное запечатывание патронника': 'Icon_Upgrade_Damage.png',
+        'Компактные магазины': 'Icon_Upgrade_Total_Ammo.png',
+        'Экспериментальные патроны': 'Icon_Upgrade_Damage.png',
+        'Микрофлешетты': 'Icon_Overclock_SmallBullets.png',
+        'Электромины': 'Icon_Upgrade_Electricity.png',
+        'Свинцовый шквал': 'Icon_Upgrade_Special.png',
+        'Повторный распылитель': 'Icon_Upgrade_Special.png',
+        'Ультра-магнитные катушки': 'Icon_Upgrade_Duration.png',
+        'Модуль обратного питания': 'Icon_Upgrade_Total_Ammo.png',
+        'Крот': 'Icon_Upgrade_Blow_Through.png',
+        'Тройной технологичный патронник': 'Icon_Upgrade_Damage.png',
+        'Пекло': 'Icon_Upgrade_Heat.png',
+        'Жидкий хладагент': 'Icon_Upgrade_Cooling.png',
+        'Агрессивный продув': 'Icon_Upgrade_Explosion.png',
+        'Термическая электропроводность': 'Icon_Upgrade_Temperature.png',
+        'Отскок': 'Icon_Upgrade_Ricoshet.png',
+        'Термогенератор': 'Icon_Upgrade_Total_Ammo.png',
+        'Перенастроенный ускоритель частиц': 'Icon_Upgrade_Damage.png',
+        'Тепловозвратный газоотвод': 'Icon_Upgrade_Heat.png',
+        'Щитовой усилитель': 'Icon_Upgrade_Resistance.png',
+        'Хипстер': 'Icon_Upgrade_Total_Ammo.png',
+        'ИИ-стабилизатор': 'Icon_Upgrade_WeakspotBonus.png',
+        'Система активной стабилизации': 'Icon_Upgrade_Accuracy.png',
+        'ЭМ-катушки для сверхзарядника': 'Icon_Upgrade_Electricity.png',
+        'Суперохлаждающий патронник': 'Icon_Upgrade_Cooling.png',
+        'Метка смерти': 'Icon_Upgrade_Damage.png',
+        'Особый порох': 'Icon_Overclock_ShotgunJump.png',
+        'Туго набитые патроны': 'Icon_Upgrade_Shotgun_Pellet.png',
+        'Изменённая форма патронов': 'Icon_Upgrade_Accuracy.png',
+        'Гигантские патроны': 'Icon_Upgrade_Damage.png',
+        'Двойной ствол': 'Icon_Upgrade_Special.png',
+        'Минималистичные магазины': 'Icon_Upgrade_Reload_Speed.png',
+        'Самодельные оболочки': 'Icon_Upgrade_Magazine_Size.png',
+        'Встроенные детонаторы': 'Icon_Overclock_Special_Magazine.png',
+        'Криомины': 'Icon_Upgrade_Cold.png',
+        'Переработка газа': 'Icon_Upgrade_Damage.png',
+        'Быстрый огонь': 'Icon_Upgrade_RateOfFire.png',
+        'Специалист': 'Icon_Upgrade_Special.png',
+        'Огненный болт': 'Icon_Upgrade_Heat.png',
+        'Криоболт': 'Icon_Upgrade_Cold.png',
+        'Узкие наконечники': 'Icon_Upgrade_Ricoshet.png',
+        'Тройной залп': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Липкая добавка': 'Icon_Upgrade_Duration_V2.png',
+        'Облегчённые топливные баки': 'Icon_Upgrade_Total_Ammo.png',
+        'Рассеиватель топлива': 'Icon_Upgrade_Reach.png',
+        'Компактные клапаны подачи': 'Icon_Upgrade_Magazine_Size.png',
+        'Палящий поток': 'Icon_Overclock_Special_Magazine.png',
+        'Липкое топливо': 'Icon_Upgrade_Duration_V2.png',
+        'Лицеплав': 'Icon_Upgrade_Duration_V2.png',
+        'Повышенная теплоэффективность': 'Icon_Upgrade_Magazine_Size.png',
+        'Настроенный охладитель': 'Icon_Upgrade_Cold.png',
+        'Увеличенная мощность струи': 'Icon_Upgrade_Duration.png',
+        'Кристальная нуклеация': 'Icon_Upgrade_Special.png',
+        'Снежок': 'Icon_Upgrade_Area.png',
+        'Водород-ионная добавка': 'Player_State_Acid.png',
+        'Антигравитационная смесь': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Нестабильная смесь': 'Icon_Upgrade_Damage.png',
+        'Взрывоопасная смесь': 'Icon_Upgrade_Explosion.png',
+        'Рассеивающая смесь': 'Icon_Upgrade_Area_Damage.png',
+        'Секрет слизебомбера': 'Icon_Upgrade_Special.png',
+        'Заряд слизи': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Сверхбольшая обойма': 'Icon_Upgrade_Magazine_Size.png',
+        'Взрывная перезарядка': 'Icon_Overclock_Special_Magazine.png',
+        'Автоматический огонь': 'Icon_Upgrade_RateOfFire.png',
+        'Транквилизаторные патроны': 'Icon_Upgrade_Stun.png',
+        'Перераспределение энергии': 'Icon_Upgrade_ChargeUp.png',
+        'Магнитный модуль охлаждения': 'Icon_Upgrade_Cooling.png',
+        'Тепловая труба': 'Icon_Upgrade_Fuel.png',
+        'Весомый игрок': 'Icon_Upgrade_Damage.png',
+        'Сверхзарядник': 'Icon_Upgrade_Damage.png',
+        'Устойчивая плазма': 'Icon_Upgrade_Duration_V2.png',
+        'Система жидкостного охлаждения': 'Icon_Upgrade_Cooling.png',
+        'Сверхфокусирующая линза': 'Icon_Upgrade_Accuracy.png',
+        'Рассеивающий луч': 'Icon_Upgrade_Blow_Through.png',
+        'Вместительный источник питания': 'Icon_Upgrade_Total_Ammo.png',
+        'Пузырчатый некроз': 'Icon_Upgrade_WeakspotBonus.png',
+        'Гамма-загрязнение': 'Player_State_Radioactive.png',
+        'Оглушитель': 'Icon_Upgrade_Stun.png',
+        'Облегчённые магазины': 'Icon_Upgrade_Total_Ammo.png',
+        'Магнитное выравнивание дроби': 'Icon_Upgrade_Accuracy.png',
+        'Перегрузка барабана': 'Icon_Upgrade_RateOfFire.png',
+        'Мини-патроны': 'Icon_Overclock_SmallBullets.png',
+        'Помповый механизм': 'Icon_Upgrade_Blow_Through.png',
+        'Сверхлёгкие патроны': 'Icon_Upgrade_Magazine_Size.png',
+        'Налаженный механизм': 'Icon_Upgrade_RateOfFire.png',
+        'ЭМ-разрядник патронника': 'Icon_Upgrade_RateOfFire.png',
+        'Облегчённые патроны': 'Icon_Upgrade_Total_Ammo.png',
+        'Сборка из гиперсплава': 'Icon_Upgrade_Accuracy.png',
+        'Добавка микро-проводников': 'Icon_Upgrade_Electricity.png',
+        'ЭМ-разряд турели': 'Icon_Upgrade_Area_Damage.png',
+        'Модуль пролома брони': 'Icon_Upgrade_ArmorBreaking.png',
+        'Стиратель': 'Icon_Upgrade_Magazine_Size.png',
+        'Патроны с взрывным химикатом': 'Icon_Upgrade_Explosion.png',
+        'Нейролассо': 'Icon_Upgrade_Slowdown.png',
+        'Самонаводящиеся патроны': 'Icon_Upgrade_Accuracy.png',
+        'Палач': 'Icon_Upgrade_WeakspotBonus.png',
+        'ОС УмNострел': '48px-Icon_Upgrade_Light.png',
+        'Безупречная чистка': 'Icon_Upgrade_Area.png',
+        'Резервный запас': 'Icon_Upgrade_Total_Ammo.png',
+        'Соединение РП250': 'Icon_Overclock_ExplosionJump.png',
+        'Толстячок': 'Player_State_Radioactive.png',
+        'Сверхскоростные снаряды': 'Icon_Upgrade_Area_Damage.png',
+        'Облегчённые ячейки': 'Icon_Upgrade_Total_Ammo.png',
+        'Контроль вращения': 'Icon_Overclock_Spinning_Linecutter.png',
+        'Мощный плазмогенератор': 'Icon_Upgrade_Damage.png',
+        'Вернуть отправителю': 'Icon_Overclock_ForthAndBack_Linecutter.png',
+        'Высоковольтный пучок': 'Icon_Upgrade_Electricity.png',
+        'Вращающаяся смерть': 'Icon_Upgrade_Special.png',
+        'Инферно': 'Icon_Upgrade_Heat.png',
+        'Подстройка эффективности': 'Icon_Upgrade_Total_Ammo.png',
+        'Автоматический контроллер луча': 'Icon_Upgrade_RateOfFire.png',
+        'Петля обратной связи': 'Icon_Upgrade_Area.png',
+        'Реактор нестабильного воздействия': 'Icon_Upgrade_Heat.png',
+        'Катализатор пластобетона': 'Icon_Upgrade_Explosion.png',
+        'Перегруженный усилитель': 'Icon_Upgrade_Damage.png'
+      },
+      en: {
+        'A Little More oomph!': 'Icon_Upgrade_Damage.png',
+        'Thin Drum': 'Icon_Upgrade_Cooling.png',
+        'Rotor Overclock': 'Icon_Upgrade_Cooling.png',
+        'Improved Gas Duct': 'Icon_Upgrade_Damage.png',
+        'Burning Nightmare': 'Icon_Upgrade_Heat.png',
+        'Compact Feed Mechanism': 'Icon_Upgrade_Total_Ammo.png',
+        'Lead Storm': 'Icon_Upgrade_Damage.png',
+        'Hellfire': 'Icon_Upgrade_Ricoshet.png',
+        'Composite Drums': 'Icon_Upgrade_Total_Ammo.png',
+        'Splintering Rounds': 'Icon_Upgrade_Area.png',
+        'Combat Mobility': 'Icon_Upgrade_MovementSpeed.png',
+        'Carpet Bomber': 'Icon_Upgrade_Area_Damage.png',
+        'Mortar Rounds': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Big Bertha': 'Icon_Upgrade_Damage.png',
+        'Neurotoxin Payload': 'Icon_Overclock_Neuro.png',
+        'Modified Feed Mechanism': 'Icon_Upgrade_RateOfFire.png',
+        'Shrapnel Rounds': 'Icon_Upgrade_Area.png',
+        'Plasma Rockets': 'Icon_Upgrade_Blow_Through.png',
+        'Mine Layer': 'Icon_Upgrade_Special.png',
+        'Napalm Enriched Fuel': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Salvo Module': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Rocket Barrage': 'Icon_Upgrade_Reach.png',
+        'Cluster Charges': 'Icon_Overclock_Special_Magazine.png',
+        'Chain Hit': 'Icon_Upgrade_Ricoshet.png',
+        'Home-brew Powder': 'Icon_Overclock_ChangeOfHigherDamage.png',
+        'Six Shooter': 'Icon_Upgrade_Magazine_Size.png',
+        'Unstable Rounds': 'Icon_Upgrade_Heat.png',
+        'Magic Bullets': 'Icon_Upgrade_Ricoshet.png',
+        'Elephant Rounds': 'Icon_Upgrade_Damage.png',
+        'Composite Casings': 'Icon_Upgrade_RateOfFire.png',
+        'Full Chamber Seal': 'Icon_Upgrade_Damage.png',
+        'Compact Magazines': 'Icon_Upgrade_Total_Ammo.png',
+        'Experimental Rounds': 'Icon_Upgrade_Damage.png',
+        'Micro Flechettes': 'Icon_Overclock_SmallBullets.png',
+        'EM Mines': 'Icon_Upgrade_Electricity.png',
+        'Lead Spray': 'Icon_Upgrade_Special.png',
+        'Re-atomizer': 'Icon_Upgrade_Special.png',
+        'Ultra-magnetic Coils': 'Icon_Upgrade_Duration.png',
+        'Feedback Loop': 'Icon_Upgrade_Total_Ammo.png',
+        'Mole': 'Icon_Upgrade_Blow_Through.png',
+        'Triple Tech Chamber': 'Icon_Upgrade_Damage.png',
+        'Inferno': 'Icon_Upgrade_Heat.png',
+        'Home-brew Powder': 'Icon_Overclock_ChangeOfHigherDamage.png',
+        'Compact Pellets': 'Icon_Upgrade_Total_Ammo.png',
+        'Gas Rerouting': 'Icon_Upgrade_Damage.png',
+        'Overclocked Firing Mechanism': 'Icon_Upgrade_RateOfFire.png',
+        'Mercy Bullets': 'Icon_Upgrade_Damage.png',
+        'Burst Fire': 'Icon_Upgrade_Special.png',
+        'AI Stabilizer': 'Icon_Upgrade_WeakspotBonus.png',
+        'Electrical Reload': 'Icon_Upgrade_Electricity.png',
+        'Hover Mode': 'Icon_Upgrade_Special.png',
+        'Simplified Chambers': 'Icon_Upgrade_Magazine_Size.png',
+        'Active Stability System': 'Icon_Upgrade_Accuracy.png',
+        'Hipster': 'Icon_Upgrade_Total_Ammo.png',
+        'EM Charger Coils': 'Icon_Upgrade_Electricity.png',
+        'Supercooling Chamber': 'Icon_Upgrade_Cooling.png',
+        'Death from Above': 'Icon_Upgrade_Damage.png',
+        'Liquid Coolant': 'Icon_Upgrade_Cooling.png',
+        'Aggressive Venting': 'Icon_Upgrade_Explosion.png',
+        'Thermal Conductivity': 'Icon_Upgrade_Temperature.png',
+        'Overcharged Plasma': 'Icon_Upgrade_Ricoshet.png',
+        'Thermal Generator': 'Icon_Upgrade_Total_Ammo.png',
+        'Rewiring Mod': 'Icon_Upgrade_Damage.png',
+        'Heat Return': 'Icon_Upgrade_Heat.png',
+        'Shield Booster': 'Icon_Upgrade_Resistance.png',
+        'Special Powder': 'Icon_Overclock_ShotgunJump.png',
+        'Compact Pellets': 'Icon_Upgrade_Magazine_Size.png',
+        'Tight Pellets': 'Icon_Upgrade_Shotgun_Pellet.png',
+        'Modified Chamber': 'Icon_Upgrade_Accuracy.png',
+        'Giants Delight': 'Icon_Upgrade_Damage.png',
+        'Double Barrel': 'Icon_Upgrade_Special.png',
+        'Minimal Magazines': 'Icon_Upgrade_Reload_Speed.png',
+        'Home-brew Casings': 'Icon_Upgrade_Magazine_Size.png',
+        'Built-in Detonators': 'Icon_Overclock_Special_Magazine.png',
+        'Cryo Mines': 'Icon_Upgrade_Cold.png',
+        'Gas Recycling': 'Icon_Upgrade_Damage.png',
+        'Quick Fire': 'Icon_Upgrade_RateOfFire.png',
+        'Teflon Coating': 'Icon_Upgrade_Special.png',
+        'Fire Bolt': 'Icon_Upgrade_Heat.png',
+        'Cryo Bolt': 'Icon_Upgrade_Cold.png',
+        'Narrow Tip': 'Icon_Upgrade_Ricoshet.png',
+        'Triple Shot': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Sticky Additive': 'Icon_Upgrade_Duration_V2.png',
+        'Lightweight Fuel Tanks': 'Icon_Upgrade_Total_Ammo.png',
+        'Fuel Stream Diffuser': 'Icon_Upgrade_Reach.png',
+        'Compact Valves': 'Icon_Upgrade_Magazine_Size.png',
+        'Streaming Regime': 'Icon_Overclock_Special_Magazine.png',
+        'Lighter Fuel': 'Icon_Upgrade_Duration_V2.png',
+        'Sticky Fuel': 'Icon_Upgrade_Duration_V2.png',
+        'Improved Thermal Efficiency': 'Icon_Upgrade_Magazine_Size.png',
+        'Crystal Nucleation': 'Icon_Upgrade_Special.png',
+        'Tuned Cooler': 'Icon_Upgrade_Cold.png',
+        'Ice Spear': 'Icon_Upgrade_Cold.png',
+        'Increased Flow Rate': 'Icon_Upgrade_Duration.png',
+        'Snowball': 'Icon_Upgrade_Area.png',
+        'Ice Storm': 'Icon_Upgrade_Cold.png',
+        'Hydrogen Ion Additive': 'Player_State_Acid.png',
+        'Anti-gravity Mixture': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Explosive Mixture': 'Icon_Upgrade_Explosion.png',
+        'Unstable Mixture': 'Icon_Upgrade_Damage.png',
+        'Diffusing Mixture': 'Icon_Upgrade_Area_Damage.png',
+        'Sludge Bomber Secret': 'Icon_Upgrade_Special.png',
+        'Sludge Charge': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Home-brew Powder': 'Icon_Overclock_ChangeOfHigherDamage.png',
+        'Chain Hit': 'Icon_Upgrade_Ricoshet.png',
+        'Extra Large Magazine': 'Icon_Upgrade_Magazine_Size.png',
+        'Explosive Reload': 'Icon_Overclock_Special_Magazine.png',
+        'Automatic Fire': 'Icon_Upgrade_RateOfFire.png',
+        'Tranquilizer Rounds': 'Icon_Upgrade_Stun.png',
+        'Magnetic Cooling': 'Icon_Upgrade_Cooling.png',
+        'Energy Rerouting': 'Icon_Upgrade_ChargeUp.png',
+        'Heavy Warhead': 'Icon_Upgrade_Damage.png',
+        'Heat Pipe': 'Icon_Upgrade_Fuel.png',
+        'Overcharger': 'Icon_Upgrade_Damage.png',
+        'Persistent Plasma': 'Icon_Upgrade_Duration_V2.png',
+        'Superfocusing Lens': 'Icon_Upgrade_Accuracy.png',
+        'Liquid Cooling System': 'Icon_Upgrade_Cooling.png',
+        'Diffusion Ray': 'Icon_Upgrade_Blow_Through.png',
+        'High Capacity Battery': 'Icon_Upgrade_Total_Ammo.png',
+        'Liquid Glycol': 'Icon_Upgrade_WeakspotBonus.png',
+        'Gamma Contamination': 'Player_State_Radioactive.png',
+        'Lightweight Magazines': 'Icon_Upgrade_Total_Ammo.png',
+        'Stunner': 'Icon_Upgrade_Stun.png',
+        'Magnetic Pellet Alignment': 'Icon_Upgrade_Accuracy.png',
+        'Pump Action': 'Icon_Upgrade_Blow_Through.png',
+        'Barrel Overclock': 'Icon_Upgrade_RateOfFire.png',
+        'Mini Shells': 'Icon_Overclock_SmallBullets.png',
+        'Tuned Mechanism': 'Icon_Upgrade_RateOfFire.png',
+        'Superlight Rounds': 'Icon_Upgrade_Magazine_Size.png',
+        'EM Chamber Discharge': 'Icon_Upgrade_RateOfFire.png',
+        'Lightweight Rounds': 'Icon_Upgrade_Total_Ammo.png',
+        'Hyper Alloy Assembly': 'Icon_Upgrade_Accuracy.png',
+        'Micro Conductor Addtive': 'Icon_Upgrade_Electricity.png',
+        'Turret EM Discharge': 'Icon_Upgrade_Area_Damage.png',
+        'Armor Break Module': 'Icon_Upgrade_ArmorBreaking.png',
+        'Eraser': 'Icon_Upgrade_Magazine_Size.png',
+        'Seeker Rounds': 'Icon_Upgrade_Accuracy.png',
+        'Explosive Chemical': 'Icon_Upgrade_Explosion.png',
+        'Neuro Lasso': 'Icon_Upgrade_Slowdown.png',
+        'Executioner': 'Icon_Upgrade_WeakspotBonus.png',
+        'EX Smart Round': '48px-Icon_Upgrade_Light.png',
+        'Cleansing Beam': 'Icon_Upgrade_Area.png',
+        'Spare Ammo': 'Icon_Upgrade_Total_Ammo.png',
+        'Concussive Blast': 'Icon_Overclock_ExplosionJump.png',
+        'Compact Rounds': 'Icon_Upgrade_Total_Ammo.png',
+        'Fat Boy': 'Icon_Upgrade_Area_Damage.png',
+        'High Velocity Rounds': 'Icon_Upgrade_Area_Damage.png',
+        'High Capacity Rods': 'Icon_Upgrade_Damage.png',
+        'Lightweight Cells': 'Icon_Upgrade_Total_Ammo.png',
+        'Spin Control': 'Icon_Overclock_Spinning_Linecutter.png',
+        'Return to Sender': 'Icon_Overclock_ForthAndBack_Linecutter.png',
+        'High Voltage Beam': 'Icon_Upgrade_Electricity.png',
+        'Inferno': 'Icon_Upgrade_Heat.png',
+        'Spinning Death': 'Icon_Upgrade_Special.png',
+        'Efficiency Tweaks': 'Icon_Upgrade_Total_Ammo.png',
+        'Unstable Reactor': 'Icon_Upgrade_Heat.png',
+        'Automatic Beam Controller': 'Icon_Upgrade_RateOfFire.png',
+        'Feedback Loop': 'Icon_Upgrade_Area.png',
+        'Plastcrete Catalyst': 'Icon_Upgrade_Explosion.png',
+        'Overloaded Amplifier': 'Icon_Upgrade_Damage.png'
+      }
+    };
+    
+    function getOCType(ocName) {
+      const ocData = buildsData[lang]?.overclock || buildsData['ru']?.overclock || {};
+      for (const weapon in ocData) {
+        const found = ocData[weapon].find(oc => oc.name === ocName);
+        if (found) return found.type;
+      }
+      return '';
+    }
+    
+    // Map English OC names back to Russian for icon lookup
+    const enToRuOC = {
+      'Lead Storm': 'Свинцовый шторм',
+      'Lead Spray': 'Свинцовый шквал',
+      'Burning Hell': 'Пылающий ад',
+      'Neurotoxin Payload': 'Боезаряд с нейротоксином',
+      'Carpet Bomber': 'Ковровый бомбардировщик',
+      'Splintering Shells': 'Разрывные снаряды',
+      'Fragmentation Missiles': 'Осколочные ракеты',
+      'Hellfire': 'Пекло',
+      'Magic Bullets': 'Магические пули',
+      'Hipster': 'Хипстер',
+      'Special Powder': 'Особый порох',
+      'Active Stability System': 'Система активной стабилизации',
+      'Trifork Volley': 'Тройной залп',
+      'AI Stability Engine': 'ИИ-стабилизатор',
+      'Cryo Minelets': 'Криомины',
+      'Thermal Exhaust Feedback': 'Тепловозвратный газоотвод',
+      'Cryo Bolt': 'Криоболт',
+      'Conductive Thermals': 'Термическая электропроводность',
+      'Embedded Detonators': 'Встроенные детонаторы',
+      'Sticky Fuel': 'Липкое топливо',
+      'Persistent Plasma': 'Устойчивая плазма',
+      'Improved Thermal Efficiency': 'Повышенная теплоэффективность',
+      'Explosive Reload': 'Взрывная перезарядка',
+      'Disperser Compound': 'Рассеивающая смесь',
+      'Energy Rerouting': 'Перераспределение энергии',
+      'Ice Storm': 'Ледяной шторм',
+      'Blistering Necrosis': 'Пузырчатый некроз',
+      'Compact Feed Valves': 'Компактные клапаны подачи',
+      'Mega Power Supply': 'Вместительный источник питания',
+      'Executioner': 'Палач',
+      'Inferno': 'Инферно',
+      'Magnetic Pellet Alignment': 'Магнитное выравнивание дроби',
+      'Fat Boy': 'Толстячок',
+      'Turret EM Discharge': 'ЭМ-разряд турели',
+      'Volatile Impact Reactor': 'Реактор нестабильного воздействия',
+      'Pump Action': 'Помповый механизм',
+      'Hyper Propellant': 'Сверхскоростные снаряды',
+      'Explosive Chemical Rounds': 'Патроны с взрывным химикатом',
+      'Efficiency Tweaks': 'Подстройка эффективности',
+      'Hoverclock': 'Модуль парения',
+      'Minimal Clips': 'Упрощённые обоймы',
+      'Electrocuting Focus Shots': 'ЭМ-катушки для сверхзарядника',
+      'Supercooling Chamber': 'Суперохлаждающий патронник',
+      'Marked for Death': 'Метка смерти',
+      'Thermal Liquid Coolant': 'Жидкий хладагент',
+      'Aggressive Venting': 'Агрессивный продув',
+      'Impact Deflection': 'Отскок',
+      'Rewiring Mod': 'Термогенератор',
+      'Overtuned Particle Accelerator': 'Перенастроенный ускоритель частиц',
+      'Shield Battery Booster': 'Щитовой усилитель'
+    };
+    
+    function getOCIcon(ocName, ocType, lang = 'ru') {
+      // Use Russian name for icon lookup if in English mode
+      const lookupName = (lang === 'en' && enToRuOC[ocName]) ? enToRuOC[ocName] : ocName;
+      const ocIconsMap = {
+        // Russian OC names
+        'Чуть больше мощи!': 'Icon_Upgrade_Damage.png',
+        'Тонкостенный барабан': 'Icon_Upgrade_Cooling.png',
+        'Роторная перегрузка': 'Icon_Upgrade_Cooling.png',
+        'Улучшенный газоотвод': 'Icon_Upgrade_Damage.png',
+        'Пылающий ад': 'Icon_Upgrade_Heat.png',
+        'Компактный механизм подачи': 'Icon_Upgrade_Total_Ammo.png',
+        'Свинцовый шторм': 'Icon_Upgrade_Damage.png',
+        'Ад из пуль': 'Icon_Upgrade_Ricoshet.png',
+        'Композитные барабаны': 'Icon_Upgrade_Total_Ammo.png',
+        'Разрывные снаряды': 'Icon_Upgrade_Area.png',
+        'Боевая мобильность': 'Icon_Upgrade_MovementSpeed.png',
+        'Ковровый бомбардировщик': 'Icon_Upgrade_Area_Damage.png',
+        'Мортирные снаряды': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Большая Берта': 'Icon_Upgrade_Damage.png',
+        'Боезаряд с нейротоксином': 'Icon_Overclock_Neuro.png',
+        'Переделанный механизм подачи': 'Icon_Upgrade_RateOfFire.png',
+        'Осколочные ракеты': 'Icon_Upgrade_Area.png',
+        'Ракеты с плазмозарядом': 'Icon_Upgrade_Blow_Through.png',
+        'Миноукладчик': 'Icon_Upgrade_Special.png',
+        'Самопальное реактивное топливо': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Залповый модуль': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Ракетный шквал': 'Icon_Upgrade_Reach.png',
+        'Кластерные заряды': 'Icon_Overclock_Special_Magazine.png',
+        'Цепь попаданий': 'Icon_Upgrade_Ricoshet.png',
+        'Самопальный порох': 'Icon_Overclock_ChangeOfHigherDamage.png',
+        'Шестистрел': 'Icon_Upgrade_Magazine_Size.png',
+        'Нестабильные пули': 'Icon_Upgrade_Heat.png',
+        'Магические пули': 'Icon_Upgrade_Ricoshet.png',
+        'Слонобойные патроны': 'Icon_Upgrade_Damage.png',
+        'Композитные гильзы': 'Icon_Upgrade_RateOfFire.png',
+        'Полное запечатывание патронника': 'Icon_Upgrade_Damage.png',
+        'Компактные магазины': 'Icon_Upgrade_Total_Ammo.png',
+        'Экспериментальные патроны': 'Icon_Upgrade_Damage.png',
+        'Микрофлешетты': 'Icon_Overclock_SmallBullets.png',
+        'Электромины': 'Icon_Upgrade_Electricity.png',
+        'Свинцовый шквал': 'Icon_Upgrade_Special.png',
+        'Повторный распылитель': 'Icon_Upgrade_Special.png',
+        'Ультра-магнитные катушки': 'Icon_Upgrade_Duration.png',
+        'Модуль обратного питания': 'Icon_Upgrade_Total_Ammo.png',
+        'Крот': 'Icon_Upgrade_Blow_Through.png',
+        'Тройной технологичный патронник': 'Icon_Upgrade_Damage.png',
+        'Пекло': 'Icon_Upgrade_Heat.png',
+        'Жидкий хладагент': 'Icon_Upgrade_Cooling.png',
+        'Агрессивный продув': 'Icon_Upgrade_Explosion.png',
+        'Термическая электропроводность': 'Icon_Upgrade_Temperature.png',
+        'Отскок': 'Icon_Upgrade_Ricoshet.png',
+        'Термогенератор': 'Icon_Upgrade_Total_Ammo.png',
+        'Перенастроенный ускоритель частиц': 'Icon_Upgrade_Damage.png',
+        'Тепловозвратный газоотвод': 'Icon_Upgrade_Heat.png',
+        'Щитовой усилитель': 'Icon_Upgrade_Resistance.png',
+        'Хипстер': 'Icon_Upgrade_Total_Ammo.png',
+        'ИИ-стабилизатор': 'Icon_Upgrade_WeakspotBonus.png',
+        'Система активной стабилизации': 'Icon_Upgrade_Accuracy.png',
+        'ЭМ-катушки для сверхзарядника': 'Icon_Upgrade_Electricity.png',
+        'Суперохлаждающий патронник': 'Icon_Upgrade_Cooling.png',
+        'Метка смерти': 'Icon_Upgrade_Damage.png',
+        'Особый порох': 'Icon_Overclock_ShotgunJump.png',
+        'Туго набитые патроны': 'Icon_Upgrade_Shotgun_Pellet.png',
+        'Изменённая форма патронов': 'Icon_Upgrade_Accuracy.png',
+        'Гигантские патроны': 'Icon_Upgrade_Damage.png',
+        'Двойной ствол': 'Icon_Upgrade_Special.png',
+        'Минималистичные магазины': 'Icon_Upgrade_Reload_Speed.png',
+        'Самодельные оболочки': 'Icon_Upgrade_Magazine_Size.png',
+        'Встроенные детонаторы': 'Icon_Overclock_Special_Magazine.png',
+        'Криомины': 'Icon_Upgrade_Cold.png',
+        'Переработка газа': 'Icon_Upgrade_Damage.png',
+        'Быстрый огонь': 'Icon_Upgrade_RateOfFire.png',
+        'Специалист': 'Icon_Upgrade_Special.png',
+        'Огненный болт': 'Icon_Upgrade_Heat.png',
+        'Криоболт': 'Icon_Upgrade_Cold.png',
+        'Узкие наконечники': 'Icon_Upgrade_Ricoshet.png',
+        'Тройной залп': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Липкая добавка': 'Icon_Upgrade_Duration_V2.png',
+        'Облегчённые топливные баки': 'Icon_Upgrade_Total_Ammo.png',
+        'Рассеиватель топлива': 'Icon_Upgrade_Reach.png',
+        'Компактные клапаны подачи': 'Icon_Upgrade_Magazine_Size.png',
+        'Палящий поток': 'Icon_Overclock_Special_Magazine.png',
+        'Липкое топливо': 'Icon_Upgrade_Duration_V2.png',
+        'Лицеплав': 'Icon_Upgrade_Damage.png',
+        'Повышенная теплоэффективность': 'Icon_Upgrade_Magazine_Size.png',
+        'Кристальная нуклеация': 'Icon_Upgrade_Special.png',
+        'Настроенный охладитель': 'Icon_Upgrade_Cold.png',
+        'Ледяное копьё': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Увеличенная мощность струи': 'Icon_Upgrade_Duration.png',
+        'Снежок': 'Icon_Upgrade_Area.png',
+        'Ледяной шторм': 'Icon_Upgrade_Damage.png',
+        'Водород-ионная добавка': 'Player_State_Acid.png',
+        'Антигравитационная смесь': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Нестабильная смесь': 'Icon_Upgrade_Damage.png',
+        'Взрывоопасная смесь': 'Icon_Upgrade_Explosion.png',
+        'Рассеивающая смесь': 'Icon_Upgrade_Area_Damage.png',
+        'Секрет слизебомбера': 'Icon_Upgrade_Special.png',
+        'Заряд слизи': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Сверхбольшая обойма': 'Icon_Upgrade_Magazine_Size.png',
+        'Взрывная перезарядка': 'Icon_Overclock_Special_Magazine.png',
+        'Автоматический огонь': 'Icon_Upgrade_RateOfFire.png',
+        'Транквилизаторные патроны': 'Icon_Upgrade_Stun.png',
+        'Перераспределение энергии': 'Icon_Upgrade_ChargeUp.png',
+        'Магнитный модуль охлаждения': 'Icon_Upgrade_Cooling.png',
+        'Тепловая труба': 'Icon_Upgrade_Fuel.png',
+        'Весомый игрок': 'Icon_Upgrade_Damage.png',
+        'Сверхзарядник': 'Icon_Upgrade_Damage.png',
+        'Устойчивая плазма': 'Icon_Upgrade_Duration_V2.png',
+        'Система жидкостного охлаждения': 'Icon_Upgrade_Cooling.png',
+        'Сверхфокусирующая линза': 'Icon_Upgrade_Accuracy.png',
+        'Рассеивающий луч': 'Icon_Upgrade_Blow_Through.png',
+        'Вместительный источник питания': 'Icon_Upgrade_Total_Ammo.png',
+        'Пузырчатый некроз': 'Icon_Upgrade_WeakspotBonus.png',
+        'Гамма-загрязнение': 'Player_State_Radioactive.png',
+        'Оглушитель': 'Icon_Upgrade_Stun.png',
+        'Облегчённые магазины': 'Icon_Upgrade_Total_Ammo.png',
+        'Магнитное выравнивание дроби': 'Icon_Upgrade_Accuracy.png',
+        'Перегрузка барабана': 'Icon_Upgrade_RateOfFire.png',
+        'Мини-патроны': 'Icon_Overclock_SmallBullets.png',
+        'Помповый механизм': 'Icon_Upgrade_Blow_Through.png',
+        'Сверхлёгкие патроны': 'Icon_Upgrade_Magazine_Size.png',
+        'Налаженный механизм': 'Icon_Upgrade_RateOfFire.png',
+        'ЭМ-разрядник патронника': 'Icon_Upgrade_RateOfFire.png',
+        'Облегчённые патроны': 'Icon_Upgrade_Total_Ammo.png',
+        'Сборка из гиперсплава': 'Icon_Upgrade_Accuracy.png',
+        'Добавка микро-проводников': 'Icon_Upgrade_Electricity.png',
+        'ЭМ-разряд турели': 'Icon_Upgrade_Area_Damage.png',
+        'Модуль пролома брони': 'Icon_Upgrade_ArmorBreaking.png',
+        'Стиратель': 'Icon_Upgrade_Magazine_Size.png',
+        'Патроны с взрывным химикатом': 'Icon_Upgrade_Explosion.png',
+        'Нейролассо': 'Icon_Upgrade_Slowdown.png',
+        'Самонаводящиеся патроны': 'Icon_Upgrade_Accuracy.png',
+        'Палач': 'Icon_Upgrade_WeakspotBonus.png',
+        'ОС УмNострел': '48px-Icon_Upgrade_Light.png',
+        'Безупречная чистка': 'Icon_Upgrade_Area.png',
+        'Резервный запас': 'Icon_Upgrade_Total_Ammo.png',
+        'Соединение РП250': 'Icon_Overclock_ExplosionJump.png',
+        'Толстячок': 'Player_State_Radioactive.png',
+        'Сверхскоростные снаряды': 'Icon_Upgrade_Area_Damage.png',
+        'Облегчённые ячейки': 'Icon_Upgrade_Total_Ammo.png',
+        'Контроль вращения': 'Icon_Overclock_Spinning_Linecutter.png',
+        'Мощный плазмогенератор': 'Icon_Upgrade_Damage.png',
+        'Вернуть отправителю': 'Icon_Overclock_ForthAndBack_Linecutter.png',
+        'Высоковольтный пучок': 'Icon_Upgrade_Electricity.png',
+        'Вращающаяся смерть': 'Icon_Upgrade_Special.png',
+        'Инферно': 'Icon_Upgrade_Heat.png',
+        'Подстройка эффективности': 'Icon_Upgrade_Total_Ammo.png',
+        'Автоматический контроллер луча': 'Icon_Upgrade_RateOfFire.png',
+        'Петля обратной связи': 'Icon_Upgrade_Area.png',
+        'Реактор нестабильного воздействия': 'Icon_Upgrade_Heat.png',
+        'Катализатор пластобетона': 'Icon_Upgrade_Explosion.png',
+        'Перегруженный усилитель': 'Icon_Upgrade_Damage.png',
+        'Модуль парения': 'Icon_Overclock_Slowdown.png',
+        'Хипстер': 'Icon_Upgrade_Accuracy.png',
+        'Система активной стабилизации': 'Icon_Upgrade_MovementSpeed.png',
+        'Суперохлаждающий патронник': 'Icon_Upgrade_Damage.png',
+        'Метка смерти': 'Icon_Upgrade_WeakspotBonus.png',
+        'Агрессивный продув': 'Icon_Upgrade_Special.png',
+        'Компактные патроны': 'Icon_Upgrade_Total_Ammo.png',
+        'Компактные снаряды': 'Icon_Upgrade_Total_Ammo.png',
+        'Толстячок': 'Icon_Upgrade_Area_Damage.png',
+        'Сверхскоростные снаряды': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Реактор нестабильного воздействия': 'Icon_Upgrade_Special.png',
+        'Перенаправление газов': 'Icon_Upgrade_Magazine_Size.png',
+        'Разогнанный механизм стрельбы': 'Icon_Upgrade_RateOfFire.png',
+        'Пули милосердия': 'Icon_Upgrade_Damage.png',
+        'Стрельба очередью': 'Icon_Upgrade_Special.png',
+        'Электризующая перезарядка': 'Icon_Overclock_Special_Magazine.png',
+        'Упрощённые обоймы': 'Icon_Upgrade_Magazine_Size.png',
+        // English OC names
+        'A Little More Oomph!': 'Icon_Upgrade_Damage.png',
+        'Thinned Drum Walls': 'Icon_Upgrade_Cooling.png',
+        'Rotary Overdrive': 'Icon_Upgrade_Cooling.png',
+        'Exhaust Vectoring': 'Icon_Upgrade_Damage.png',
+        'Burning Hell': 'Icon_Upgrade_Heat.png',
+        'Compact Feed Mechanism': 'Icon_Upgrade_Total_Ammo.png',
+        'Lead Storm': 'Icon_Upgrade_Damage.png',
+        'Bullet Hell': 'Icon_Upgrade_Ricoshet.png',
+        'Composite Drums': 'Icon_Upgrade_Total_Ammo.png',
+        'Splintering Shells': 'Icon_Upgrade_Area.png',
+        'Combat Mobility': 'Icon_Upgrade_MovementSpeed.png',
+        'Carpet Bomber': 'Icon_Upgrade_Area_Damage.png',
+        'Mortar Rounds': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Big Bertha': 'Icon_Upgrade_Damage.png',
+        'Neurotoxin Payload': 'Icon_Overclock_Neuro.png',
+        'Overtuned Feed Mechanism': 'Icon_Upgrade_RateOfFire.png',
+        'Fragmentation Missiles': 'Icon_Upgrade_Area.png',
+        'Plasma Burster Missiles': 'Icon_Upgrade_Blow_Through.png',
+        'Minelayer System': 'Icon_Upgrade_Special.png',
+        'Jet Fuel Homebrew': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Salvo Module': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Rocket Barrage': 'Icon_Upgrade_Reach.png',
+        'Cluster Charges': 'Icon_Overclock_Special_Magazine.png',
+        'Chain Hit': 'Icon_Upgrade_Ricoshet.png',
+        'Homebrew Powder': 'Icon_Overclock_ChangeOfHigherDamage.png',
+        'Six Shooter': 'Icon_Upgrade_Magazine_Size.png',
+        'Volatile Bullets': 'Icon_Upgrade_Heat.png',
+        'Magic Bullets': 'Icon_Upgrade_Ricoshet.png',
+        'Elephant Rounds': 'Icon_Upgrade_Damage.png',
+        'Composite Casings': 'Icon_Upgrade_RateOfFire.png',
+        'Full Chamber Seal': 'Icon_Upgrade_Damage.png',
+        'Compact Mags': 'Icon_Upgrade_Total_Ammo.png',
+        'Experimental Rounds': 'Icon_Upgrade_Damage.png',
+        'Micro Flechettes': 'Icon_Overclock_SmallBullets.png',
+        'Electro Minelets': 'Icon_Upgrade_Electricity.png',
+        'Lead Spray': 'Icon_Upgrade_Special.png',
+        'Re-atomizer': 'Icon_Upgrade_Special.png',
+        'Ultra-Magnetic Coils': 'Icon_Upgrade_Duration.png',
+        'Backfeeding Module': 'Icon_Upgrade_Total_Ammo.png',
+        'The Mole': 'Icon_Upgrade_Blow_Through.png',
+        'Triple-Tech Chambers': 'Icon_Upgrade_Damage.png',
+        'Hellfire': 'Icon_Upgrade_Heat.png',
+        'Compact Ammo': 'Icon_Upgrade_Total_Ammo.png',
+        'Gas Rerouting': 'Icon_Upgrade_Magazine_Size.png',
+        'Overclocked Firing Mechanism': 'Icon_Upgrade_RateOfFire.png',
+        'Bullets of Mercy': 'Icon_Upgrade_Damage.png',
+        'Burst Fire': 'Icon_Upgrade_Special.png',
+        'AI Stability Engine': 'Icon_Upgrade_WeakspotBonus.png',
+        'Electrifying Reload': 'Icon_Overclock_Special_Magazine.png',
+        'Hoverclock': 'Icon_Overclock_Slowdown.png',
+        'Minimal Clips': 'Icon_Upgrade_Magazine_Size.png',
+        'Active Stability System': 'Icon_Upgrade_MovementSpeed.png',
+        'Hipster': 'Icon_Upgrade_Accuracy.png',
+        'Electrocuting Focus Shots': 'Icon_Upgrade_Electricity.png',
+        'Supercooling Chamber': 'Icon_Upgrade_Damage.png',
+        'Marked for Death': 'Icon_Upgrade_WeakspotBonus.png',
+        'Thermal Liquid Coolant': 'Icon_Upgrade_Cooling.png',
+        'Aggressive Venting': 'Icon_Upgrade_Special.png',
+        'Conductive Thermals': 'Icon_Upgrade_Temperature.png',
+        'Impact Deflection': 'Icon_Upgrade_Ricoshet.png',
+        'Rewiring Mod': 'Icon_Upgrade_Total_Ammo.png',
+        'Overtuned Particle Accelerator': 'Icon_Upgrade_Damage.png',
+        'Thermal Exhaust Feedback': 'Icon_Upgrade_Heat.png',
+        'Shield Battery Booster': 'Icon_Upgrade_Resistance.png',
+        'Special Powder': 'Icon_Overclock_ShotgunJump.png',
+        'Compact Shells': 'Icon_Upgrade_Magazine_Size.png',
+        'Stuffed Shells': 'Icon_Upgrade_Shotgun_Pellet.png',
+        'Shaped Shells': 'Icon_Upgrade_Accuracy.png',
+        'Jumbo Shells': 'Icon_Upgrade_Damage.png',
+        'Double Barrel': 'Icon_Upgrade_Special.png',
+        'Minimal Magazines': 'Icon_Upgrade_Reload_Speed.png',
+        'Custom Casings': 'Icon_Upgrade_Magazine_Size.png',
+        'Embedded Detonators': 'Icon_Overclock_Special_Magazine.png',
+        'Cryo Minelets': 'Icon_Upgrade_Cold.png',
+        'Gas Recycling': 'Icon_Upgrade_Damage.png',
+        'Quick Fire': 'Icon_Upgrade_RateOfFire.png',
+        'The Specialist': 'Icon_Upgrade_Special.png',
+        'Fire Bolt': 'Icon_Upgrade_Heat.png',
+        'Cryo Bolt': 'Icon_Upgrade_Cold.png',
+        'Bodkin Points': 'Icon_Upgrade_Ricoshet.png',
+        'Trifork Volley': 'Icon_Overclock_LastShellHigherDamage.png',
+        'Sticky Additive': 'Icon_Upgrade_Duration_V2.png',
+        'Lighter Tanks': 'Icon_Upgrade_Total_Ammo.png',
+        'Fuel Stream Diffuser': 'Icon_Upgrade_Reach.png',
+        'Compact Feed Valves': 'Icon_Upgrade_Magazine_Size.png',
+        'Scorching Tide': 'Icon_Overclock_Special_Magazine.png',
+        'Face Melter': 'Icon_Upgrade_Duration_V2.png',
+        'Sticky Fuel': 'Icon_Upgrade_Duration_V2.png',
+        'Improved Thermal Efficiency': 'Icon_Upgrade_Magazine_Size.png',
+        'Crystal Nucleation': 'Icon_Upgrade_Special.png',
+        'Tuned Cooler': 'Icon_Upgrade_Cold.png',
+        'Ice Spear': 'Icon_Upgrade_Cold.png',
+        'Flow Rate Expansion': 'Icon_Upgrade_Duration.png',
+        'Snowball': 'Icon_Upgrade_Area.png',
+        'Ice Storm': 'Icon_Upgrade_Cold.png',
+        'Hydrogen Ion Additive': 'Player_State_Acid.png',
+        'AG Mixture': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Combustive Goo Mix': 'Icon_Upgrade_Explosion.png',
+        'Volatile Impact Mixture': 'Icon_Upgrade_Damage.png',
+        'Disperser Compound': 'Icon_Upgrade_Area_Damage.png',
+        'Goo Bomber Special': 'Icon_Upgrade_Special.png',
+        'Sludge Blast': 'Icon_Upgrade_Shotgun_Blast.png',
+        'Oversized Magazine': 'Icon_Upgrade_Magazine_Size.png',
+        'Explosive Reload': 'Icon_Overclock_Special_Magazine.png',
+        'Automatic Fire': 'Icon_Upgrade_RateOfFire.png',
+        'Tranquilizer Rounds': 'Icon_Upgrade_Stun.png',
+        'Magnetic Cooling Unit': 'Icon_Upgrade_Cooling.png',
+        'Energy Rerouting': 'Icon_Upgrade_ChargeUp.png',
+        'Heavy Hitter': 'Icon_Upgrade_Damage.png',
+        'Heat Pipe': 'Icon_Upgrade_Fuel.png',
+        'Overcharger': 'Icon_Upgrade_Damage.png',
+        'Persistent Plasma': 'Icon_Upgrade_Duration_V2.png',
+        'Super Focus Lens': 'Icon_Upgrade_Accuracy.png',
+        'Liquid Cooling System': 'Icon_Upgrade_Cooling.png',
+        'Diffusion Ray': 'Icon_Upgrade_Blow_Through.png',
+        'Mega Power Supply': 'Icon_Upgrade_Total_Ammo.png',
+        'Blistering Necrosis': 'Icon_Upgrade_WeakspotBonus.png',
+        'Gamma Contamination': 'Player_State_Radioactive.png',
+        'Light-Weight Magazines': 'Icon_Upgrade_Total_Ammo.png',
+        'Stunner': 'Icon_Upgrade_Stun.png',
+        'Magnetic Pellet Alignment': 'Icon_Upgrade_Accuracy.png',
+        'Pump Action': 'Icon_Upgrade_Blow_Through.png',
+        'Cycle Overload': 'Icon_Upgrade_RateOfFire.png',
+        'Mini Shells': 'Icon_Overclock_SmallBullets.png',
+        'Well Oiled Machine': 'Icon_Upgrade_RateOfFire.png',
+        'Super-Slim Rounds': 'Icon_Upgrade_Magazine_Size.png',
+        'EM Refire Booster': 'Icon_Upgrade_RateOfFire.png',
+        'Light-Weight Rounds': 'Icon_Upgrade_Total_Ammo.png',
+        'Hyperalloy Assembly': 'Icon_Upgrade_Accuracy.png',
+        'Micro-Conductor Add-On': 'Icon_Upgrade_Electricity.png',
+        'Turret EM Discharge': 'Icon_Upgrade_Area_Damage.png',
+        'Armor Break Module': 'Icon_Upgrade_ArmorBreaking.png',
+        'Eraser': 'Icon_Upgrade_Magazine_Size.png',
+        'Seeker Rounds': 'Icon_Upgrade_Accuracy.png',
+        'Explosive Chemical Rounds': 'Icon_Upgrade_Explosion.png',
+        'Neuro-Lasso': 'Icon_Upgrade_Slowdown.png',
+        'Smяt Trigger OS™': '48px-Icon_Upgrade_Light.png',
+        'Executioner': 'Icon_Upgrade_WeakspotBonus.png',
+        'Clean Sweep': 'Icon_Upgrade_Area.png',
+        'Pack Rat': 'Icon_Upgrade_Total_Ammo.png',
+        'RJ250 Compound': 'Icon_Overclock_ExplosionJump.png',
+        'Fat Boy': 'Icon_Upgrade_Area_Damage.png',
+        'Hyper Propellant': 'Icon_Upgrade_ProjectileSpeed.png',
+        'Stronger Plasma Current': 'Icon_Upgrade_Damage.png',
+        'Light-Weight Cases': 'Icon_Upgrade_Total_Ammo.png',
+        'Roll Control': 'Icon_Overclock_Spinning_Linecutter.png',
+        'Return to Sender': 'Icon_Overclock_ForthAndBack_Linecutter.png',
+        'High Voltage Crossover': 'Icon_Upgrade_Electricity.png',
+        'Inferno': 'Icon_Upgrade_Heat.png',
+        'Spinning Death': 'Icon_Upgrade_Special.png',
+        'Efficiency Tweaks': 'Icon_Upgrade_Total_Ammo.png',
+        'Volatile Impact Reactor': 'Icon_Upgrade_Special.png',
+        'Feedback Loop': 'Icon_Upgrade_Area.png',
+        'Automated Beam Controller': 'Icon_Upgrade_RateOfFire.png',
+        'Plastcrete Catalyst': 'Icon_Upgrade_Explosion.png',
+        'Overdrive Booster': 'Icon_Upgrade_Damage.png'
+      };
+      const iconFile = ocIconsMap[lookupName] || '';
+      const typeClass = ocType.toLowerCase();
+      return `<div class="oc-icon ${typeClass}"><img src="kloki png/${iconFile}" alt=""></div>`;
+    }
+    
+    function highlightNumbers(text) {
+      return text.replace(/\b(\d(?:-\d){4,})\b/g, '<span class="build-numbers">$1</span>');
+    }
+    
+    function toggleBuildFavorite(buildName, className) {
+      const savedFavorites = JSON.parse(localStorage.getItem('drg_favorites') || '[]');
+      const existingIndex = savedFavorites.findIndex(f => f.name === buildName && f.class === className);
+      
+      if (existingIndex >= 0) {
+        savedFavorites.splice(existingIndex, 1);
+      } else {
+        savedFavorites.push({ name: buildName, class: className });
+      }
+      
+      localStorage.setItem('drg_favorites', JSON.stringify(savedFavorites));
+      renderContent();
+    }
+    
+    const hints = {
+      ru: '<span>F5</span> Показать | <span>F6</span> Выход | <span>F7</span> RU',
+      en: '<span>F5</span> Show | <span>F6</span> Exit | <span>F7</span> EN'
+    };
+    
+    async function loadBuilds() {
+      buildsData = await window.api.getBuilds();
+      loadMyBuilds();
+      renderContent();
+    }
+    
+    function loadMyBuilds() {
+      const saved = localStorage.getItem('drg_mybuilds');
+      if (saved) {
+        myBuilds = JSON.parse(saved);
+      }
+    }
+    
+    function saveMyBuilds() {
+      localStorage.setItem('drg_mybuilds', JSON.stringify(myBuilds));
+    }
+    
+async function switchTab(tab) {
+        currentTab = tab;
+        viewState = 'class';
+        currentWeapon = null;
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+        
+        if (tab === 'perks' || tab === 'settings') {
+          document.getElementById('classSelect').style.display = 'none';
+        } else {
+          document.getElementById('classSelect').style.display = 'flex';
+        }
+        document.getElementById('weaponSelect').style.display = 'none';
+        document.getElementById('weaponSelect').innerHTML = '';
+        document.getElementById('buildsContainer').style.display = 'block';
+        document.getElementById('buildsContainer').classList.remove('full-height');
+        
+        // Показывать поиск только на вкладке билдов
+        document.getElementById('searchBox').style.display = tab === 'builds' ? 'flex' : 'none';
+        
+        // Очистить поиск при переходе с вкладки билдов
+        if (tab !== 'builds') {
+          searchQuery = '';
+          document.getElementById('buildSearch').value = '';
+        }
+        
+        if (tab === 'ocs') {
+          viewState = 'weapon';
+          document.getElementById('buildsContainer').style.display = 'none';
+          // restore last selected weapon for this class, if any
+          currentWeapon = lastWeaponByClass[currentClass] || null;
+          setTimeout(() => {
+            renderWeaponSelect();
+          }, 0);
+        }
+        
+        if (tab === 'settings') {
+          await renderSettingsModal();
+          return;
+        }
+        
+        renderContent();
+      }
+    
+    function selectClass(cls) {
+      currentClass = cls;
+      currentWeapon = null;
+      
+      // Очистить поиск при смене класса
+      searchQuery = '';
+      document.getElementById('buildSearch').value = '';
+      
+      document.querySelectorAll('.class-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.class === cls);
+      });
+      
+      if (currentTab === 'ocs') {
+        viewState = 'weapon';
+        renderWeaponSelect();
+      } else {
+        document.getElementById('buildsContainer').style.display = 'block';
+      }
+      
+      renderContent();
+    }
+    
+function selectWeapon(weaponKey) {
+       // Всегда храним ключ на русском
+       let ruKey = weaponKey;
+       if (lang === 'en') {
+         const ruKeyEntry = Object.entries(weaponKeyToEn).find(([ru, en]) => en === weaponKey);
+         if (ruKeyEntry) ruKey = ruKeyEntry[0];
+       }
+       currentWeapon = ruKey;
+       // Запоминаем последнее выбранное оружие для класса
+       lastWeaponByClass[currentClass] = ruKey;
+       
+       document.querySelectorAll('.weapon-btn').forEach(btn => {
+         btn.classList.toggle('active', btn.dataset.weapon === ruKey);
+       });
+       
+       viewState = 'oc';
+       document.getElementById('weaponSelect').style.display = 'none';
+       renderContent();
+     }
+    
+    function goBack() {
+      if (viewState === 'oc') {
+        viewState = 'weapon';
+        document.getElementById('weaponSelect').style.display = 'grid';
+        document.getElementById('buildsContainer').style.display = 'none';
+      } else if (viewState === 'weapon') {
+        viewState = 'class';
+        document.getElementById('weaponSelect').style.display = 'none';
+        document.getElementById('weaponSelect').innerHTML = '';
+        document.getElementById('buildsContainer').style.display = 'block';
+      }
+      renderContent();
+    }
+    
+    function renderWeaponSelect() {
+      const container = document.getElementById('weaponSelect');
+      const buildsContainer = document.getElementById('buildsContainer');
+      const weapons = weaponNames[currentClass][lang];
+      const keys = weaponKeys[currentClass];
+      
+      buildsContainer.style.display = 'none';
+      
+      const order = [0, 1, 2, 3, 4, 5];
+      
+      container.innerHTML = order.map(i => {
+        const key = keys[i];
+        const displayKey = lang === 'en' ? (weaponKeyToEn[key] || key) : key;
+        const isActive = currentWeapon === key;
+        return `<button class="weapon-btn ${isActive ? 'active' : ''}" 
+                data-weapon="${encodeURIComponent(key)}">${weapons[i]}</button>`;
+      }).join('');
+      
+      container.querySelectorAll('.weapon-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectWeapon(decodeURIComponent(btn.dataset.weapon));
+        });
+      });
+      
+      container.style.display = 'grid';
+    }
+    
+    function renderContent() {
+      const container = document.getElementById('buildsContainer');
+      const color = classColors[currentClass];
+      
+      container.style.setProperty('--class-color', color);
+      
+      if (currentTab === 'builds') {
+        renderBuilds(container, color);
+      } else if (currentTab === 'ocs') {
+        renderOCs(container, color);
+      } else if (currentTab === 'perks') {
+        renderPerks(container);
+      } else if (currentTab === 'mybuilds') {
+        renderMyBuildsForm(container);
+      }
+      
+      document.getElementById('langBtn').textContent = lang === 'ru' ? 'EN' : 'RU';
+      document.getElementById('hint').innerHTML = hints[lang];
+    }
+    
+    function renderBuilds(container, color) {
+      let builds = buildsData[lang]?.[currentClass] || [];
+      const ocData = buildsData[lang]?.overclock || {};
+      
+      if (!builds.length && lang === 'en') {
+        builds = buildsData['ru']?.[currentClass] || [];
+      }
+      
+      // Добавляем свои билды в начало
+      const myBuildsFiltered = myBuilds.filter(b => b.class === currentClass);
+      builds = [...myBuildsFiltered, ...builds];
+      
+      // Получаем избранные билды
+      const savedFavorites = JSON.parse(localStorage.getItem('drg_favorites') || '[]');
+      const favoriteNames = savedFavorites
+        .filter(f => f.class === currentClass)
+        .map(f => f.name);
+      
+      // Сортируем: избранные в начале
+      builds = builds.sort((a, b) => {
+        const aFav = favoriteNames.includes(a.name) ? 1 : 0;
+        const bFav = favoriteNames.includes(b.name) ? 1 : 0;
+        return bFav - aFav;
+      });
+      
+      // Фильтрация по поиску
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        builds = builds.filter(b => {
+          const primary = (b.primary || '').toLowerCase();
+          const secondary = (b.secondary || '').toLowerCase();
+          const primaryOC = (b.primaryOC || '').toLowerCase();
+          const secondaryOC = (b.secondaryOC || '').toLowerCase();
+          return primary.includes(q) || secondary.includes(q) || primaryOC.includes(q) || secondaryOC.includes(q);
+        });
+      }
+      
+      container.innerHTML = builds.map((build, index) => {
+        const isFavorite = favoriteNames.includes(build.name);
+        const typeMap = { 'Безупречный': 'clean', 'Сбалансированный': 'balanced', 'Нестабильный': 'unstable', 'Clean': 'clean', 'Balanced': 'balanced', 'Unstable': 'unstable' };
+        const primaryOCType = build.primaryOC ? typeMap[getOCType(build.primaryOC)] || getOCType(build.primaryOC).toLowerCase() : '';
+        const secondaryOCType = build.secondaryOC ? typeMap[getOCType(build.secondaryOC)] || getOCType(build.secondaryOC).toLowerCase() : '';
+        return `
+        <div class="build${shouldAnimate ? ' animate' : ''}" style="--class-color: ${color}; ${shouldAnimate ? `animation-delay: ${index * 0.08}s` : ''}">
+          <button class="favorite-btn" onclick="event.stopPropagation(); toggleBuildFavorite('${build.name.replace(/'/g, "\\'")}', '${currentClass}')" style="${isFavorite ? 'opacity: 1; color: #d4a017;' : ''}">${isFavorite ? '★' : '☆'}</button>
+          <div class="build-name">${build.name}</div>
+          ${build.primary ? `<div class="build-section">
+            <div class="build-section-title">${lang === 'ru' ? 'Основное' : 'Primary'}</div>
+            <div class="build-section-content"><div class="weapon-left"><span class="weapon-text">${highlightNumbers(build.primary)}</span>${build.primaryOC ? `<div class="oc-name ${primaryOCType}">${build.primaryOC}</div>` : ''}</div>${build.primaryOC ? getOCIcon(build.primaryOC, primaryOCType, lang) : ''}</div>
+          </div>` : ''}
+          ${build.secondary ? `<div class="build-section">
+            <div class="build-section-title">${lang === 'ru' ? 'Вторичное' : 'Secondary'}</div>
+            <div class="build-section-content"><div class="weapon-left"><span class="weapon-text">${highlightNumbers(build.secondary)}</span>${build.secondaryOC ? `<div class="oc-name ${secondaryOCType}">${build.secondaryOC}</div>` : ''}</div>${build.secondaryOC ? getOCIcon(build.secondaryOC, secondaryOCType, lang) : ''}</div>
+          </div>` : ''}
+          ${build.notes ? `<div class="build-section notes">
+            <div class="build-section-title">${lang === 'ru' ? 'Заметки' : 'Notes'}</div>
+            <div class="build-section-content">${build.notes}</div>
+          </div>` : ''}
+        </div>`;
+      }).join('');
+      
+      if (!builds.length) {
+        container.innerHTML = `<div class="build" style="--class-color: ${color}">
+          <div class="build-name">${searchQuery ? (lang === 'ru' ? 'Нет результатов' : 'No results') : (lang === 'ru' ? 'Нет билдов' : 'No builds')}</div>
+        </div>`;
+      }
+      
+      if (shouldAnimate) shouldAnimate = false;
+    }
+    
+    function renderOCs(container, color) {
+      const ocData = buildsData[lang]?.overclock || {};
+      
+      let weaponKey = currentWeapon;
+      if (lang === 'en' && currentWeapon) {
+        const enKey = Object.entries(weaponKeyToEn).find(([ru, en]) => ru === currentWeapon);
+        if (enKey) weaponKey = enKey[1];
+      }
+      
+      const overclocks = weaponKey ? (ocData[weaponKey] || []) : [];
+      
+      const tierOrder = { 'C': 1, 'B': 2, 'A': 3, 'S': 4 };
+      const sortedOverclocks = [...overclocks].sort((a, b) => tierOrder[a.tier] - tierOrder[b.tier]);
+      
+      if (viewState === 'weapon' || !currentWeapon) {
+        document.getElementById('weaponSelect').style.display = 'grid';
+        container.style.display = 'none';
+        return;
+      }
+      
+      document.getElementById('weaponSelect').style.display = 'none';
+      container.style.display = 'block';
+      
+      let backBtn = '';
+      if (viewState === 'oc') {
+        backBtn = `<button class="back-btn" onclick="goBack()">← ${lang === 'ru' ? 'Назад' : 'Back'}</button>`;
+      }
+      
+      container.innerHTML = `
+        <div>${backBtn}</div>
+        ${sortedOverclocks.map((oc, index) => {
+          const typeMap = {
+            'Безупречный': 'clean',
+            'Сбалансированный': 'balanced',
+            'Нестабильный': 'unstable',
+            'Clean': 'clean',
+            'Balanced': 'balanced',
+            'Unstable': 'unstable'
+          };
+          const typeClass = typeMap[oc.type] || oc.type.toLowerCase();
+          const iconHtml = getOCIcon(oc.name, oc.type, lang);
+          return `
+          <div class="build${shouldAnimate ? ' animate' : ''}" style="--class-color: ${color}; ${shouldAnimate ? `animation-delay: ${index * 0.05}s` : ''}">
+            <div class="oc-item">
+              <div class="oc-tier ${oc.tier}">${oc.tier}</div>
+              <div class="oc-info">
+                <div class="oc-name">${oc.name}</div>
+                <div class="oc-type ${typeClass}">${oc.type}</div>
+                <div class="oc-desc">${oc.desc}</div>
+              </div>
+              <div class="oc-icon ${typeClass}" style="display: flex; align-items: center; justify-content: center; margin-left: 10px; width: 100px; height: 100px; padding: 0; position: relative;">
+                ${iconHtml.replace(/<div class="oc-icon [^"]+">/, '').replace('</div>', '')}
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      `;
+      
+      if (shouldAnimate) shouldAnimate = false;
+      
+    }
+    
+function renderPerks(container) {
+        const perksData = buildsData[lang]?.perks || buildsData['ru']?.perks || {};
+        
+const perkIcons = {
+            'Dash': 'icons/120px-Dash_perk_icon.png',
+            'Field Medic': 'icons/120px-Field_medic_perk_icon.png',
+            'Resupplier': 'icons/120px-Resupplier_perk_icon.png',
+            'Iron Will': 'icons/120px-Iron_will_perk_icon.png',
+            'Vampire': 'icons/120px-Vampire_perk_icon.png',
+            'Born Ready': 'icons/120px-Born_ready_perk_icon.png',
+            'Sweet Tooth': 'icons/120px-Red_sugar_rocks_perk_icon.png',
+            'Thorns': 'icons/120px-Thorns_perk_icon.png',
+            'Deep Pockets': 'icons/120px-Deep_pockets_perk_icon.png',
+            'See You In Hell': 'icons/120px-See_you_in_hell_perk_icon.png',
+            'Unstoppable': 'icons/120px-Unstoppable_perk_icon.png',
+            'Strong Arm': 'icons/120px-Strong_arm_perk_icon.png',
+            'Friendly': 'icons/120px-Loveable_perk_icon.png',
+            "It's a Bug Thing": 'icons/120px-Bug_thing_perk_icon.png',
+            'Veteran Depositor': 'icons/120px-Expert_depositor_perk_icon.png',
+            'Beast Master': 'icons/120px-Beast_master_perk_icon.png',
+            'Рывок': 'icons/120px-Dash_perk_icon.png',
+            'Полевой медик': 'icons/120px-Field_medic_perk_icon.png',
+            'Знаток боеприпасов': 'icons/120px-Resupplier_perk_icon.png',
+            'Железная воля': 'icons/120px-Iron_will_perk_icon.png',
+            'Вампир': 'icons/120px-Vampire_perk_icon.png',
+            'Всегда готов': 'icons/120px-Born_ready_perk_icon.png',
+            'Сладкоежка': 'icons/120px-Red_sugar_rocks_perk_icon.png',
+            'Шипы': 'icons/120px-Thorns_perk_icon.png',
+            'Глубокие карманы': 'icons/120px-Deep_pockets_perk_icon.png',
+            'Увидимся в аду': 'icons/120px-See_you_in_hell_perk_icon.png',
+            'Неудержимый': 'icons/120px-Unstoppable_perk_icon.png',
+            'Сильная рука': 'icons/120px-Strong_arm_perk_icon.png',
+            'Дружелюбный': 'icons/120px-Loveable_perk_icon.png',
+            'Жучиное шоу': 'icons/120px-Bug_thing_perk_icon.png',
+            'Ветеран-разгрузчик': 'icons/120px-Expert_depositor_perk_icon.png',
+            'Повелитель зверей': 'icons/120px-Beast_master_perk_icon.png'
+          };
+        
+const getIcon = (name) => {
+          // Извлекаем английское имя из строки типа "Рывок (Dash)" или "Field Medic"
+          const match = name.match(/\(([^)]+)\)/);
+          const engName = match ? match[1] : name;
+          const iconFile = perkIcons[engName];
+          return iconFile ? `<img src="${iconFile}" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">` : '';
+        };
+        
+        const renderPerk = (perk, index, color) => {
+          // Format description for better readability - break long sentences
+const formattedDesc = perk.desc
+  .replace(/([.!?])\s+/g, '$1<br>');
+            
+          const displayName = lang === 'ru' ? perk.name.replace(/\s*\([^)]+\)\s*$/, '').trim() : perk.name;
+          return `
+            <div class="build${shouldAnimate ? ' animate' : ''}" style="--class-color: ${color}; ${shouldAnimate ? `animation-delay: ${index * 0.05}s` : ''}">
+              <div class="perk-item">
+                <div class="perk-name">${getIcon(perk.name)}${displayName}</div>
+                <div class="perk-desc">${formattedDesc}</div>
+              </div>
+            </div>`;
+        };
+        
+        container.innerHTML = `
+          <div class="perk-category S">S-Tier</div>
+          ${perksData.S?.map((perk, i) => renderPerk(perk, i, '#c93a3a')).join('')}
+          
+          <div class="perk-category A">A-Tier</div>
+          ${perksData.A?.map((perk, i) => renderPerk(perk, i, '#e05555')).join('')}
+          
+          <div class="perk-category B">B-Tier</div>
+          ${perksData.B?.map((perk, i) => renderPerk(perk, i, '#d4a017')).join('')}
+          
+          <div class="perk-category C">C-Tier</div>
+          ${perksData.C?.map((perk, i) => renderPerk(perk, i, '#6a7a8a')).join('')}
+          
+          <div class="perk-category D">D-Tier</div>
+          ${perksData.D?.map((perk, i) => renderPerk(perk, i, '#4a4a4a')).join('')}
+          
+          <div class="perk-category ultimate">Ultimate Build</div>
+          <div class="ultimate-section">
+            <div class="ultimate-label">${lang === 'ru' ? 'Пассивные:' : 'Passive:'}</div>
+            <div class="ultimate-perks">
+              ${lang === 'ru' ? 
+                `<span class="ult-perk"><img src="icons/120px-Resupplier_perk_icon.png" class="ult-icon">Знаток боеприпасов</span>
+                 <span class="ult-perk"><img src="icons/120px-Vampire_perk_icon.png" class="ult-icon">Вампир</span>
+                 <span class="ult-perk"><img src="icons/120px-Born_ready_perk_icon.png" class="ult-icon">Всегда готов</span>` : 
+                `<span class="ult-perk"><img src="icons/120px-Resupplier_perk_icon.png" class="ult-icon">Resupplier</span>
+                 <span class="ult-perk"><img src="icons/120px-Vampire_perk_icon.png" class="ult-icon">Vampire</span>
+                 <span class="ult-perk"><img src="icons/120px-Born_ready_perk_icon.png" class="ult-icon">Born Ready</span>`}
+            </div>
+            <div class="ultimate-label">${lang === 'ru' ? 'Активные:' : 'Active:'}</div>
+            <div class="ultimate-perks">
+              ${lang === 'ru' ? 
+                `<span class="ult-perk"><img src="icons/120px-Dash_perk_icon.png" class="ult-icon">Рывок</span>
+                 <span class="ult-perk"><img src="icons/120px-Iron_will_perk_icon.png" class="ult-icon">Железная воля</span>` :
+                `<span class="ult-perk"><img src="icons/120px-Dash_perk_icon.png" class="ult-icon">Dash</span>
+                 <span class="ult-perk"><img src="icons/120px-Iron_will_perk_icon.png" class="ult-icon">Iron Will</span>`}
+            </div>
+          </div>
+        `;
+        
+        if (shouldAnimate) shouldAnimate = false;
+      }
+    
+    function renderMyBuildsForm(container) {
+      document.getElementById('classSelect').style.display = 'none';
+      document.getElementById('weaponSelect').style.display = 'none';
+      document.getElementById('buildsContainer').classList.add('full-height');
+      
+      const classes = ['gunner', 'engineer', 'driller', 'scout'];
+      const classNames = {
+        gunner: { ru: 'Gunner', en: 'Gunner' },
+        engineer: { ru: 'Engineer', en: 'Engineer' },
+        driller: { ru: 'Driller', en: 'Driller' },
+        scout: { ru: 'Scout', en: 'Scout' }
+      };
+      
+      container.innerHTML = `
+        <div class="my-builds-form">
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Название билда' : 'Build Name'}</label>
+            <input type="text" class="form-input" id="buildName" placeholder="${lang === 'ru' ? 'Название билда' : 'Build name'}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Класс' : 'Class'}</label>
+            <select class="form-select" id="buildClass">
+              ${classes.map(c => `<option value="${c}">${classNames[c][lang]}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Основное оружие' : 'Primary Weapon'}</label>
+            <input type="text" class="form-input" id="buildPrimary" placeholder="${lang === 'ru' ? 'Основное оружие' : 'Primary weapon'}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Оверклок основного' : 'Primary OC'}</label>
+            <input type="text" class="form-input" id="buildPrimaryOC" placeholder="${lang === 'ru' ? 'Оверклок основного' : 'Primary OC'}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Вторичное оружие' : 'Secondary Weapon'}</label>
+            <input type="text" class="form-input" id="buildSecondary" placeholder="${lang === 'ru' ? 'Вторичное оружие' : 'Secondary weapon'}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Оверклок вторичного' : 'Secondary OC'}</label>
+            <input type="text" class="form-input" id="buildSecondaryOC" placeholder="${lang === 'ru' ? 'Оверклок вторичного' : 'Secondary OC'}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Перки' : 'Perks'}</label>
+            <input type="text" class="form-input" id="buildPerks" placeholder="${lang === 'ru' ? 'Перки' : 'Perks'}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">${lang === 'ru' ? 'Заметки' : 'Notes'}</label>
+            <textarea class="form-textarea" id="buildNotes" placeholder="${lang === 'ru' ? 'Ваши заметки...' : 'Your notes...'}"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="form-btn primary" onclick="addBuild()" id="addBuildBtn">${lang === 'ru' ? 'Добавить' : 'Add'}</button>
+            <button class="form-btn secondary" onclick="clearForm()">${lang === 'ru' ? 'Очистить' : 'Clear'}</button>
+          </div>
+        </div>
+        <div class="my-builds-list">
+          <div class="build-name" style="color: #4a8fc9; margin-bottom: 12px;">${lang === 'ru' ? 'Мои билды:' : 'My Builds:'}</div>
+          ${myBuilds.length ? myBuilds.sort((a, b) => (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0)).map((b, i) => {
+            const originalIndex = myBuilds.indexOf(b);
+            return `
+            <div class="build${shouldAnimate ? ' animate' : ''}" style="--class-color: ${classColors[b.class] || '#4a8fc9'}; position: relative; ${shouldAnimate ? `animation-delay: ${originalIndex * 0.08}s` : ''}" onclick="useBuild(${originalIndex})">
+              <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(${originalIndex})" style="${b.favorite ? 'color: #d4a017;' : ''}">${b.favorite ? '★' : '☆'}</button>
+              <button class="edit-btn" onclick="event.stopPropagation(); editBuild(${originalIndex})">✎</button>
+              <button class="delete-btn" onclick="event.stopPropagation(); deleteBuild(${originalIndex})">✕</button>
+              <div class="build-name">${b.name}</div>
+              <div class="build-section">
+                <div class="build-section-title">${b.class.toUpperCase()}</div>
+              </div>
+              ${b.primary ? `<div class="build-section"><div class="build-section-content">${b.primary}</div>${b.primaryOC ? `<div class="oc-name">${b.primaryOC}</div>` : ''}</div>` : ''}
+              ${b.secondary ? `<div class="build-section"><div class="build-section-content">${b.secondary}</div>${b.secondaryOC ? `<div class="oc-name">${b.secondaryOC}</div>` : ''}</div>` : ''}
+              ${b.perks ? `<div class="build-section perks"><div class="build-section-title">${lang === 'ru' ? 'Перки' : 'Perks'}</div><div class="build-section-content">${b.perks}</div></div>` : ''}
+              ${b.notes ? `<div class="build-section notes"><div class="build-section-title">${lang === 'ru' ? 'Заметки' : 'Notes'}</div><div class="build-section-content">${b.notes}</div></div>` : ''}
+            </div>`;
+          }).join('') : `<div class="build"><div class="build-section-content">${lang === 'ru' ? 'Нет сохранённых билдов' : 'No saved builds'}</div></div>`}
+        </div>
+      `;
+      
+      if (shouldAnimate) shouldAnimate = false;
+    }
+    
+    let editingIndex = -1;
+    
+    function addBuild() {
+      const name = document.getElementById('buildName').value.trim();
+      const buildClass = document.getElementById('buildClass').value;
+      const primary = document.getElementById('buildPrimary').value.trim();
+      const primaryOC = document.getElementById('buildPrimaryOC').value.trim();
+      const secondary = document.getElementById('buildSecondary').value.trim();
+      const secondaryOC = document.getElementById('buildSecondaryOC').value.trim();
+      const perks = document.getElementById('buildPerks').value.trim();
+      const notes = document.getElementById('buildNotes').value.trim();
+      
+      document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+      
+      if (!name) {
+        document.getElementById('buildName').classList.add('error');
+        return;
+      }
+      
+      const newBuild = { name, class: buildClass, primary, primaryOC, secondary, secondaryOC, perks, notes };
+      
+      if (editingIndex >= 0) {
+        myBuilds[editingIndex] = newBuild;
+        editingIndex = -1;
+        document.getElementById('addBuildBtn').textContent = lang === 'ru' ? 'Добавить' : 'Add';
+      } else {
+        myBuilds.push(newBuild);
+      }
+      
+      saveMyBuilds();
+      clearForm();
+      renderContent();
+    }
+    
+    function clearForm() {
+      document.getElementById('buildName').value = '';
+      document.getElementById('buildPrimary').value = '';
+      document.getElementById('buildPrimaryOC').value = '';
+      document.getElementById('buildSecondary').value = '';
+      document.getElementById('buildSecondaryOC').value = '';
+      document.getElementById('buildPerks').value = '';
+      document.getElementById('buildNotes').value = '';
+      editingIndex = -1;
+      document.getElementById('addBuildBtn').textContent = lang === 'ru' ? 'Добавить' : 'Add';
+    }
+    
+    function deleteBuild(index) {
+      myBuilds.splice(index, 1);
+      saveMyBuilds();
+      renderContent();
+    }
+    
+    function toggleFavorite(index) {
+      myBuilds[index].favorite = !myBuilds[index].favorite;
+      saveMyBuilds();
+      renderContent();
+    }
+    
+    function editBuild(index) {
+      const b = myBuilds[index];
+      document.getElementById('buildName').value = b.name || '';
+      document.getElementById('buildClass').value = b.class || 'gunner';
+      document.getElementById('buildPrimary').value = b.primary || '';
+      document.getElementById('buildPrimaryOC').value = b.primaryOC || '';
+      document.getElementById('buildSecondary').value = b.secondary || '';
+      document.getElementById('buildSecondaryOC').value = b.secondaryOC || '';
+      document.getElementById('buildPerks').value = b.perks || '';
+      document.getElementById('buildNotes').value = b.notes || '';
+      editingIndex = index;
+      document.getElementById('addBuildBtn').textContent = lang === 'ru' ? 'Сохранить' : 'Save';
+      document.getElementById('buildsContainer').scrollTop = 0;
+    }
+    
+    function useBuild(index) {
+      const build = myBuilds[index];
+      currentClass = build.class;
+      currentTab = 'builds';
+      
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === 'builds');
+      });
+      
+      document.getElementById('classSelect').style.display = 'flex';
+      document.querySelectorAll('.class-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.class === build.class);
+      });
+      
+      document.getElementById('weaponSelect').style.display = 'none';
+      
+      if (!buildsData[lang]) buildsData[lang] = {};
+      if (!buildsData[lang][build.class]) buildsData[lang][build.class] = [];
+      buildsData[lang][build.class].push(build);
+      
+      renderContent();
+    }
+    
+function toggleLang() {
+       lang = lang === 'ru' ? 'en' : 'ru';
+       document.getElementById('tabBuilds').textContent = lang === 'ru' ? 'Билды' : 'Builds';
+       document.getElementById('tabOCs').textContent = lang === 'ru' ? 'Клоки' : 'OCs';
+       document.getElementById('tabPerks').textContent = lang === 'ru' ? 'Перки' : 'Perks';
+       document.getElementById('tabMyBuilds').textContent = lang === 'ru' ? 'Мои билды' : 'My Build';
+       document.getElementById('buildSearch').placeholder = lang === 'ru' ? 'Поиск по оружию или клокам...' : 'Search weapons or OCs...';
+       if (currentTab === 'ocs') {
+         if (viewState === 'weapon') {
+           renderWeaponSelect();
+         } else if (viewState === 'oc') {
+           renderContent();
+         }
+       }
+       updateHints();
+      renderContent();
+    }
+    
+function closeOverlay() {
+  const overlay = document.getElementById('overlay');
+
+  // запускаем анимацию
+  overlay.classList.remove('visible');
+
+  // если открыта модалка — тоже закрываем плавно
+  document.getElementById('settingsModal').classList.remove('visible');
+
+  // ждём анимацию
+  setTimeout(() => {
+    window.api.hideOverlay();
+  }, 200);
+}
+    
+async function openSettings() {
+  await renderSettingsModal();
+  document.getElementById('settingsModal').classList.add('visible');
+}
+    
+function closeSettings() {
+  console.log('closeSettings called');
+  document.getElementById('settingsModal').classList.remove('visible');
+}
+    
+function renderSettingsModal() {
+   const content = document.getElementById('settingsContent');
+   const title = document.getElementById('settingsTitle');
+   const closeBtn = document.getElementById('settingsCloseBtn');
+   
+   title.textContent = lang === 'ru' ? 'Настройки' : 'Settings';
+   closeBtn.textContent = lang === 'ru' ? 'Закрыть' : 'Close';
+   
+   content.innerHTML = `
+     <div class="setting-row">
+       <span class="setting-label">${lang === 'ru' ? 'Показать' : 'Show'}</span>
+       <input type="text" class="setting-input" value="${hotkeys.show}" onclick="changeHotkey('show')" readonly>
+     </div>
+     <div class="setting-row">
+       <span class="setting-label">${lang === 'ru' ? 'Выход' : 'Exit'}</span>
+       <input type="text" class="setting-input" value="${hotkeys.exit}" onclick="changeHotkey('exit')" readonly>
+     </div>
+     <div class="setting-row">
+       <span class="setting-label">${lang === 'ru' ? 'Язык' : 'Language'}</span>
+       <input type="text" class="setting-input" value="${hotkeys.lang}" onclick="changeHotkey('lang')" readonly>
+     </div>
+   `;
+   
+   // Attach close listener
+   closeBtn.onclick = closeSettings;
+ }
+    
+    function changeHotkey(action) {
+      const input = event.target;
+      input.value = '...';
+      input.style.borderColor = '#d4a017';
+      
+      window.api.unregisterHotkeys();
+      
+      const handleKey = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        let key = e.key;
+        
+        if (key === ' ') {
+          key = 'Space';
+        } else if (key.length === 1) {
+          if (/[a-zA-Z]/.test(key)) {
+            key = key.toUpperCase();
+          }
+        }
+        
+        const validKeys = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12','Space','Escape','Enter','Tab','Backspace','Delete','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'];
+        
+        if (validKeys.includes(key) || (key.length === 1 && /[A-Z0-9]/.test(key))) {
+          hotkeys[action] = key;
+          localStorage.setItem('drg_hotkeys', JSON.stringify(hotkeys));
+          window.api.updateHotkeys(hotkeys);
+          renderSettingsModal();
+          updateHints();
+          document.removeEventListener('keydown', handleKey, { capture: true });
+        }
+      };
+      
+      document.addEventListener('keydown', handleKey, { capture: true });
+    }
+    
+    function loadHotkeys() {
+      const saved = localStorage.getItem('drg_hotkeys');
+      if (saved) {
+        hotkeys = JSON.parse(saved);
+      }
+      updateHints();
+    }
+    
+    function saveHotkeys() {
+      localStorage.setItem('drg_hotkeys', JSON.stringify(hotkeys));
+      window.api.updateHotkeys(hotkeys);
+    }
+    
+    function updateHints() {
+      document.getElementById('hint').innerHTML = `<span>${hotkeys.show}</span> ${lang === 'ru' ? 'Показать' : 'Show'} | <span>${hotkeys.exit}</span> ${lang === 'ru' ? 'Выход' : 'Exit'} | <span>${hotkeys.lang}</span> ${lang === 'ru' ? 'RU' : 'EN'}`;
+    }
+    
+    window.api.onAnimateShow(() => {
+      document.getElementById('overlay').classList.add('visible');
+      shouldAnimate = true;
+    });
+    
+    window.api.onAnimateHide(() => {
+      document.getElementById('overlay').classList.remove('visible');
+    });
+    
+    window.api.onToggleLang(() => {
+      toggleLang();
+    });
+    
+    loadBuilds();
+    
+    // Поиск билдов
+    const searchInput = document.getElementById('buildSearch');
+    const searchClear = document.getElementById('searchClear');
+    
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderContent();
+    });
+    
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      renderContent();
+    });
+    loadHotkeys();
+    const overlay = document.getElementById('overlay');
+    overlay.classList.add('visible');
+    console.log('Overlay visible added:', overlay.classList.contains('visible'));
+    console.log('Overlay element:', overlay);
+    console.log('Overlay CSS:', getComputedStyle(overlay).opacity);
+    
+    // Click-through: enable clicks when hovering over overlay
+    document.getElementById('overlay').addEventListener('mouseenter', () => {
+      window.api.setClickThrough(false);
+    });
+    
+    document.getElementById('overlay').addEventListener('mouseleave', () => {
+      window.api.setClickThrough(true);
+    });
+    
+    // Drag - простой
+    const d = document.getElementById('drag-region');
+    let m, sx, sy;
+    d.onmousedown = e => { m = 1; sx = e.screenX; sy = e.screenY; };
+    document.onmouseup = () => m = 0;
+    document.onmousemove = e => { if(!m)return; let dx=e.screenX-sx,dy=e.screenY-sy; sx=e.screenX; sy=e.screenY; window.api.moveBy(dx,dy); };
+  </script>
+</body>
+</html>

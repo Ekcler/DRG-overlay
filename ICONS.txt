@@ -1,0 +1,251 @@
+БУРИЛЬЩИК: 
+
+Огнемет: 
+Lighter Tanks — Icon_Upgrade_Total_Ammo.png (три патрона)
+Sticky Additive — Icon_Upgrade_Duration.png (песочные часы)
+Compact Feed Valves — Icon_Upgrade_Magazine_Size.png (магазин с плюсом)
+Fuel Stream Diffuser — Icon_Upgrade_Reach.png (три стрелки в длину)
+Face Melter — Icon_Upgrade_Explosion.png (череп со вспышками)
+Sticky Fuel — Icon_Upgrade_Duration_V2.png (песочные часы в красной рамке)
+Scorching Tide — Icon_Overclock_Special_Magazine.png (магазин с круговыми стрелками)
+
+Cryo Cannon (Криопушка):
+
+    Improved Thermal Efficiency — Icon_Upgrade_Magazine_Size.png (магазин со знаком +)
+    Tuned Cooler — Icon_Upgrade_Cold.png (снежинка)
+    Flow Rate Expansion — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой)
+    Ice Spear — Icon_Upgrade_ProjectileSpeed.png (снаряд со шлейфом)
+    Crystal Nucleation — Icon_Upgrade_Area_Damage.png (сфера с шипами/всплеск)
+    Ice Storm — Icon_Upgrade_Damage.png (череп)
+    Snowball — Icon_Upgrade_Explosion.png (взрыв со стрелками в стороны)
+
+Corrosive Sludge Pump :
+
+    Hydrogen Ion Additive — Player_State_Acid.png (капающая кислота)
+    AG Mixture — Icon_Upgrade_ProjectileSpeed.png (летящий снаряд)
+    Volatile Impact Mixture — Icon_Upgrade_Damage.png (череп)
+    Disperser Compound — Icon_Upgrade_Area.png (многоугольник/зона)
+    Combustive Goo Mix — Icon_Upgrade_Heat.png (пламя/взрыв)
+    Goo Bomber Special — Icon_Upgrade_Explosion.png (взрыв со стрелками)
+    Sludge Blast — Icon_Upgrade_Shotgun_Blast.png (три расходящихся снаряда)
+
+
+
+Subata 120 :
+
+    Chain Hit — Icon_Upgrade_Ricoshet.png (стрелка, отскакивающая от поверхности)
+    Homebrew Powder — Icon_Overclock_ChangeOfHigherDamage.png (игральные кости)
+    Oversized Magazine — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Automatic Fire — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой вправо)
+    Explosive Reload — Icon_Overclock_Special_Magazine.png (магазин с круговыми стрелками)
+    Tranquilizer Rounds — Icon_Upgrade_Stun.png (символ оглушения/звездочки над головой)
+
+
+Experimental Plasma Charger :
+
+    Energy Rerouting — Icon_Upgrade_ChargeUp.png (большая молния со стрелкой)
+    Magnetic Cooling Unit — Icon_Upgrade_Cooling.png (термометр со стрелкой вниз)
+    Heat Pipe — Icon_Upgrade_Fuel.png (канистра)
+    Heavy Hitter — Icon_Upgrade_Damage.png (череп со вспышками)
+    Overcharger — Icon_Upgrade_Damage.png (череп со вспышками в красной рамке)
+    Persistent Plasma — Icon_Upgrade_Duration.png (песочные часы)
+
+Colette Wave Cooker :
+
+    Liquid Cooling System — Icon_Upgrade_Cooling.png (термометр со стрелкой вниз)
+    Super Focus Lens — Icon_Upgrade_Accuracy.png (прицел)
+    Diffusion Ray — Icon_Upgrade_Area.png (многоугольник/зона охвата)
+    Mega Power Supply — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой)
+    Blistering Necrosis — Icon_Overclock_Neuro.png (череп со значком биоугрозы)
+    Gamma Contamination — Player_State_Radioactive.png (знак радиации)
+
+
+
+ИНЖ:
+
+"Warthog" Auto 210 :
+
+    Stunner — Icon_Upgrade_Stun.png (звездочки оглушения)
+    Light-Weight Magazines — Icon_Upgrade_Total_Ammo.png (три патрона в ряд)
+    Magnetic Pellet Alignment — Icon_Upgrade_Accuracy.png (прицел)
+    Cycle Overload — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой скорострельности)
+    Mini Shells — Icon_Overclock_SmallBullets.png (кучка мелкой дроби)
+    Pump Action — Icon_Upgrade_Shotgun_Pellet.png (один патрон с вылетающей дробью)
+
+"Stubby" Voltaic SMG :
+
+    Super-Slim Rounds — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Well Oiled Machine — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой скорострельности)
+    EM Refire Booster — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой, в желтой рамке)
+    Light-Weight Rounds — Icon_Upgrade_Total_Ammo.png (три патрона в ряд)
+    Hyperalloy Assembly — Icon_Upgrade_Accuracy.png (прицел)
+    Micro-Conductor Add-On — Icon_Upgrade_Electricity.png (две молнии)
+    Turret EM Discharge — Icon_Upgrade_Explosion.png (взрыв со снежинкой/разрядом внутри)
+
+
+ LOK-1 Smart Rifle :
+
+    Eraser — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Armor Break Module — Icon_Upgrade_ArmorBreaking.png (треснувший щит)
+    Explosive Chemical Rounds — Icon_Upgrade_Explosion.png (взрыв)
+    Neuro-Lasso — Icon_Upgrade_Slowdown.png (замедляющийся ботинок)
+    Seeker Rounds — Icon_Upgrade_Accuracy.png (прицел с захватом)
+    Executioner — Icon_Upgrade_WeakspotBonus.png (прицел с черепом внутри)
+    Smяt Trigger OS™ — 48px-Icon_Upgrade_Light (лампочка/мозговой штурм)
+
+Deepcore 40mm PGL :
+
+    Clean Sweep — Icon_Upgrade_Area.png (четыре стрелки в стороны — радиус взрыва)
+    Pack Rat — Icon_Upgrade_Total_Ammo.png (три патрона в ряд — боезапас)
+    Compact Rounds — Icon_Upgrade_Total_Ammo.png (три патрона в ряд, в желтой рамке)
+    RJ250 Compound — Icon_Overclock_ExplosionJump.png (человечек, подпрыгивающий на взрыве)
+    Fat Boy — Player_State_Radioactive.png (знак радиации внутри взрыва)
+    Hyper Propellant — Icon_Upgrade_Area_Damage 
+
+Breach Cutter :
+
+    Light-Weight Cases — Icon_Upgrade_Total_Ammo.png (три патрона — боезапас)
+    Roll Control — Icon_Upgrade_Special.png (закрученная стрелка — управление вращением)
+    Stronger Plasma Current — Icon_Upgrade_Damage.png (череп — урон)
+    Return to Sender — Icon_Overclock_ForthAndBack_Linecutter.png (две стрелки — возврат снаряда)
+    High Voltage Crossover — Icon_Upgrade_Electricity.png (молния — электрический урон)
+    Spinning Death — Icon_Overclock_Spinning_Linecutter.png (вращающаяся спираль — смерть в кручении)
+    Inferno — Icon_Upgrade_Heat.png (пламя — огненный урон)
+
+Shard Diffractor :
+
+    Efficiency Tweaks — Icon_Upgrade_Total_Ammo.png (три патрона — боезапас)
+    Automated Beam Controller — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой скорострельности)
+    Feedback Loop — Icon_Upgrade_Area.png (сфера со стрелками в стороны — расширение луча)
+    Volatile Impact Reactor — Icon_Upgrade_Heat.png (вспышка/звезда — нагрев поверхности)
+    Plastcrete Catalyst — Icon_Upgrade_Explosion.png (взрыв — детонация платформ)
+    Overdrive Booster — Icon_Upgrade_Damage.png (череп со вспышками — максимальный урон)
+
+
+
+ГАНЕР:
+
+
+"Lead Storm" Powered Minigun :
+
+    A Little More Oomph! — Icon_Upgrade_Damage.png (череп)
+    Thinned Drum Walls — Icon_Upgrade_Cooling.png (термометр со стрелкой вниз)
+    Burning Hell — Icon_Upgrade_Heat.png (пламя)
+    Compact Feed Mechanism — Icon_Upgrade_Total_Ammo.png (три патрона в ряд)
+    Exhaust Vectoring — Icon_Upgrade_Damage.png (череп, в желтой рамке)
+    Rotary Overdrive — Icon_Upgrade_Cooling.png (термометр со стрелкой вниз, в желтой рамке)
+    Bullet Hell — Icon_Upgrade_Ricoshet.png (стрелка, отскакивающая от поверхности)
+    Lead Storm — Icon_Upgrade_Damage.png (череп, в красной рамке)
+
+
+"Thunderhead" Heavy Autocannon :
+
+    Composite Drums — Icon_Upgrade_Total_Ammo.png (три патрона — боезапас)
+    Splintering Shells — Icon_Upgrade_Area.png (четыре стрелки в стороны — радиус взрыва)
+    Carpet Bomber — Icon_Upgrade_Area_Damage.png (сфера с шипами во все стороны — урон по площади)
+    Combat Mobility — Icon_Upgrade_MovementSpeed.png (ботинок с «крыльями» скорости)
+    Big Bertha — Icon_Upgrade_Damage.png (череп — прямой урон)
+    Neurotoxin Payload — Icon_Overclock_Neuro.png (знак биоугрозы — нейротоксин)
+    Mortar Rounds — Icon_Upgrade_Explosion.png (три пули с эффектом взрыва)
+
+
+"Hurricane" Guided Rocket System :
+
+    Overtuned Feed Mechanism — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой скорострельности)
+    Fragmentation Missiles — Icon_Upgrade_Area.png (четыре стрелки в стороны — радиус взрыва)
+    Plasma Burster Missiles — Icon_Upgrade_ProjectileSpeed.png (летящий снаряд со шлейфом)
+    Minelayer System — Icon_Upgrade_Explosion.png (взрыв / мина)
+    Rocket Barrage — Icon_Upgrade_RateOfFire.png (три стрелки вверх — шквал ракет)
+    Jet Fuel Homebrew — Icon_Upgrade_ProjectileSpeed.png (снаряд с реактивным пламенем)
+    Salvo Module — Icon_Upgrade_Shotgun_Blast.png (три расходящихся снаряда — залп)
+    Cluster Charges — Icon_Upgrade_Explosion.png (три падающих снаряда с эффектом взрыва)
+
+
+"Bulldog" Heavy Revolver :
+
+    Chain Hit — Icon_Upgrade_Ricoshet.png (стрелка, отскакивающая от поверхности)
+    Homebrew Powder — Icon_Overclock_ChangeOfHigherDamage.png (игральные кости)
+    Volatile Bullets — Icon_Upgrade_Heat.png (пламя)
+    Six Shooter — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Elephant Rounds — Icon_Upgrade_Damage.png (череп со вспышками)
+    Magic Bullets — Icon_Upgrade_Ricoshet.png (стрелка, отскакивающая от поверхности, в красной рамке)
+
+
+
+ArmsKore Coil Gun :
+
+    Re-atomizer — Icon_Upgrade_Explosion.png (вспышка / взрыв)
+    Ultra-Magnetic Coils — Icon_Upgrade_Duration.png (песочные часы)
+    Backfeeding Module — Icon_Upgrade_Total_Ammo.png (три патрона в ряд)
+    The Mole — Icon_Upgrade_ProjectileSpeed.png (патрон с ускорением / пробитие)
+    Hellfire — Icon_Upgrade_Heat.png (пламя)
+    Triple-Tech Chambers — Icon_Upgrade_Damage.png (череп со вспышками)
+
+СКАУТ:
+
+Deepcore GK2 :
+
+    Compact Ammo — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Gas Rerouting — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой скорострельности)
+    Homebrew Powder — Icon_Overclock_ChangeOfHigherDamage.png (игральные кости)
+    Overclocked Firing Mechanism — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой, в желтой рамке)
+    Bullets of Mercy — Icon_Upgrade_Damage.png (белый череп — бонус по целям под эффектами)
+    Burst Fire — Icon_Upgrade_Explosion.png (вспышка / взрыв — стрельба очередями)
+    AI Stability Engine — Icon_Upgrade_Accuracy.png (прицел — максимальная точность)
+    Electrifying Reload — Icon_Overclock_Special_Magazine.png (магазин с круговыми стрелками и молнией)
+
+
+
+M1000 Classic :
+
+    Hoverclock — Icon_Upgrade_MovementSpeed.png (закрученная стрелка со следом — левитация в воздухе)
+    Minimal Clips — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Active Stability System — Icon_Upgrade_MovementSpeed.png (сапог с крыльями — движение во время прицеливания)
+    Hipster — Icon_Upgrade_Accuracy.png (прицел с четырьмя точками)
+    Electrocuting Focus Shots — Icon_Upgrade_Electricity.png (две молнии — электрический урон)
+    Supercooling Chamber — Icon_Upgrade_Damage.png (череп со вспышками — максимальный урон)
+    Marked for Death — Icon_Upgrade_WeakspotBonus.png (череп внутри прицела — метка на враге)
+
+
+
+DRAK-25 Plasma Carbine :
+
+    Aggressive Venting — Icon_Upgrade_Explosion.png (взрыв / вспышка — выброс тепла)
+    Thermal Liquid Coolant — Icon_Upgrade_Cooling.png (термометр со стрелкой вниз)
+    Impact Deflection — Icon_Upgrade_Ricoshet.png (стрелка, отскакивающая от поверхности)
+    Conductive Thermals — Icon_Upgrade_Temperature.png (термометр — нагрев цели)
+    Rewiring Mod — Icon_Upgrade_Total_Ammo.png (три патрона — возврат боезапаса)
+    Overtuned Particle Accelerator — Icon_Upgrade_Damage.png (череп — высокий урон)
+    Shield Battery Booster — Icon_Upgrade_Resistance.png (кулак на щите — бонус от щита)
+    Thermal Exhaust Feedback — Icon_Upgrade_Heat.png (пламя — огненный урон при перегреве)
+
+
+Jury-Rigged Boomstick :
+
+    Compact Shells — Icon_Upgrade_Total_Ammo.png (три патрона в ряд)
+    Special Powder — Icon_Overclock_ExplosionJump.png (человечек, летящий от взрыва)
+    Stuffed Shells — Icon_Upgrade_Shotgun_Pellet.png (один патрон с вылетающей дробью)
+    Shaped Shells — Icon_Upgrade_Accuracy.png (прицел — уменьшение разброса)
+    Jumbo Shells — Icon_Upgrade_Damage.png (череп со вспышками)
+    Double Barrel — Icon_Upgrade_Explosion.png (звезда / мощный взрыв)
+
+
+
+Zhukov NUK17 :
+
+    Minimal Magazines — Icon_Upgrade_MovementSpeed.png (магазин с круговыми стрелками — скорость перезарядки)
+    Custom Casings — Icon_Upgrade_Magazine_Size.png (магазин со знаком «+»)
+    Cryo Minelets — Icon_Upgrade_Cold.png (снежинка — замораживающие мины)
+    Embedded Detonators — Icon_Overclock_Special_Magazine.png (магазин с искрами и стрелками — взрыв при перезарядке)
+    Gas Recycling — Icon_Upgrade_Damage.png (череп — высокий урон без слабых мест)
+
+
+
+Nishanka Boltshark X-80 :
+
+    Quick Fire — Icon_Upgrade_RateOfFire.png (три патрона со стрелкой скорострельности)
+    The Specialist — Icon_Upgrade_Special.png (звезда / вспышка — бонусы к спец-болтам)
+    Cryo Bolt — Icon_Upgrade_Cold.png (снежинка — заморозка)
+    Fire Bolt — Icon_Upgrade_Heat.png (пламя — поджог)
+    Bodkin Points — Icon_Upgrade_Ricoshet.png (стрела, рикошетящая от врага)
+    Trifork Volley — Icon_Upgrade_Total_Ammo.png (три патрона в ряд — залп из трех болтов)
