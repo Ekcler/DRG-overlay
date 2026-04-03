@@ -2813,16 +2813,20 @@ function renderSettingsModal() {
           }
         }
         
-        const validKeys = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12','Space','Escape','Enter','Tab','Backspace','Delete','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'];
-        
-        if (validKeys.includes(key) || (key.length === 1 && /[A-Z0-9]/.test(key))) {
-          hotkeys[action] = key;
-          localStorage.setItem('drg_hotkeys', JSON.stringify(hotkeys));
+        if (key === 'Escape' || key === 'Tab') {
+          input.value = hotkeys[action];
+          input.style.borderColor = '#2d333b';
           window.api.updateHotkeys(hotkeys);
-          renderSettingsModal();
-          updateHints();
           document.removeEventListener('keydown', handleKey, { capture: true });
+          return;
         }
+        
+        hotkeys[action] = key;
+        localStorage.setItem('drg_hotkeys', JSON.stringify(hotkeys));
+        window.api.updateHotkeys(hotkeys);
+        renderSettingsModal();
+        updateHints();
+        document.removeEventListener('keydown', handleKey, { capture: true });
       };
       
       document.addEventListener('keydown', handleKey, { capture: true });
