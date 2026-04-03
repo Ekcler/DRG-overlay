@@ -2805,18 +2805,23 @@ function renderSettingsModal() {
         
         let key = e.key;
         
-        if (key === ' ') {
-          key = 'Space';
-        } else if (key.length === 1) {
-          if (/[a-zA-Z]/.test(key)) {
-            key = key.toUpperCase();
-          }
-        }
+        if (key === ' ') key = 'Space';
+        else if (key.length === 1 && /[a-zA-Z]/.test(key)) key = key.toUpperCase();
         
-        if (key === 'Escape' || key === 'Tab') {
+        if (key === 'Escape') {
           input.value = hotkeys[action];
           input.style.borderColor = '#2d333b';
-          window.api.updateHotkeys(hotkeys);
+          document.removeEventListener('keydown', handleKey, { capture: true });
+          return;
+        }
+
+        const validSpecial = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12','F13','F14','F15','F16','F17','F18','F19','F20','F21','F22','F23','F24','Space','Enter','Backspace','Delete','Insert','Up','Down','Left','Right','Home','End','PageUp','PageDown','PrintScreen','VolumeUp','VolumeDown','VolumeMute','MediaNextTrack','MediaPreviousTrack','MediaStop','MediaPlayPause'];
+        const isValid = /^[A-Z0-9]$/.test(key) || validSpecial.includes(key);
+
+        if (!isValid) {
+          input.value = hotkeys[action];
+          input.style.borderColor = '#c93a3a';
+          setTimeout(() => input.style.borderColor = '#2d333b', 1000);
           document.removeEventListener('keydown', handleKey, { capture: true });
           return;
         }
