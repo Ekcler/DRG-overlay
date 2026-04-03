@@ -7,7 +7,7 @@
   },
   "build": {
     "win": {
-      "icon": "icon.ico",
+      "icon": "icoz.ico",
       "target": "portable"
     }
   }

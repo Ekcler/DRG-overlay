@@ -2,6 +2,9 @@ const { app, BrowserWindow, globalShortcut, ipcMain, screen } = require('electro
 const path = require('path');
 const fs = require('fs');
 
+app.commandLine.appendSwitch('force-device-scale-factor', '1');
+app.commandLine.appendSwitch('high-dpi-support', '1');
+
 let mainWindow = null;
 let isVisible = false;
 
@@ -12,21 +15,25 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 616,
     height: 820,
-    minWidth: 400,
-    minHeight: 300,
+    minWidth: 616,
+    minHeight: 820,
+    maxWidth: 616,
+    maxHeight: 820,
     x: width - 620,
     y: 80,
+    icon: path.join(__dirname, 'icoz.ico'),
     transparent: false,
     frame: false,
     alwaysOnTop: true,
     hasShadow: false,
-    resizable: true,
+    resizable: false,
     skipTaskbar: false,
     show: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      zoomFactor: 1.0
     }
   });
   

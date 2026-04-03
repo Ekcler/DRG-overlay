@@ -1,38 +1,47 @@
-# DRG Overlay / DRG Оверлей
+<!-- DRG Overlay -->
+<p align="center">
+  <img src="icon.ico" alt="DRG Overlay" width="128"/>
+</p>
 
-Overlay builds for Deep Rock Galactic. / Оверлей билдов для Deep Rock Galactic.
+<p align="center">
+  <a href="./README.md">English</a> | <a href="./README-ru.md">Русский</a>
+</p>
 
-## Hotkeys / Хоткеи
+# DRG Overlay
 
-- **F5** - show/hide overlay / показать/скрыть оверлей
-- **F6** - exit application / выход из приложения
-- **F7** - toggle language (RU/EN) / переключить язык
+Overlay builds for Deep Rock Galactic.
 
-## Installation / Установка
+## Hotkeys
+
+- **F5** - show/hide overlay
+- **F6** - exit application
+- **F7** - toggle language (RU/EN)
+
+## Installation
 
 ```bash
 npm install
 ```
 
-## Run / Запуск
+## Run
 
 ```bash
 npm start
 ```
 
-## Build / Билд
+## Build
 
 ```bash
 npx electron-builder --win portable
 ```
 
-## Structure / Структура
+## Structure
 
-- `index.html` - main interface / основной интерфейс
-- `builds.json` - builds data / данные билдов
-- `main.js` - Electron main process / Electron процесс
-- `preload.js` - preload script / прелоад скрипт
-- `icons/`, `class_icons/`, `kloki png/` - icons / иконки
+- `index.html` - main interface
+- `builds.json` - builds data
+- `main.js` - Electron main process
+- `preload.js` - preload script
+- `icons/`, `class_icons/`, `kloki png/` - icons
 
 ## License
 

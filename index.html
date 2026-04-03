@@ -1315,7 +1315,7 @@
     let currentTab = 'builds';
     let currentClass = 'gunner';
     let currentWeapon = null;
-    let lang = 'ru';
+    let lang = localStorage.getItem('drg_lang') || 'ru';
     let searchQuery = '';
     let viewState = 'class';
     let shouldAnimate = true;
@@ -2723,6 +2723,7 @@ const formattedDesc = perk.desc
     
 function toggleLang() {
        lang = lang === 'ru' ? 'en' : 'ru';
+       localStorage.setItem('drg_lang', lang);
        document.getElementById('tabBuilds').textContent = lang === 'ru' ? 'Билды' : 'Builds';
        document.getElementById('tabOCs').textContent = lang === 'ru' ? 'Клоки' : 'OCs';
        document.getElementById('tabPerks').textContent = lang === 'ru' ? 'Перки' : 'Perks';
