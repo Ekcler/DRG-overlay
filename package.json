@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "clean": "node -e \"const fs=require('fs');['dist','node_modules/.cache'].forEach(d=>{try{fs.rmSync(d,{recursive:true,force:true})}catch(e){}})\"",
+    "build": "npm run clean && electron-builder --win portable"
   },
   "build": {
     "win": {
