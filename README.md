@@ -8,11 +8,11 @@
 
 ![Interface Screenshot](interface/inerface.png)
 
-## What is this for
+## 🎯 What is this for
 
 Instead of minimizing the game or searching for guides in a browser, this overlay gives you instant access to the information you need without interrupting your gameplay.
 
-## Features
+## ✨ Features
 
 - **Always on top** — the window stays above all applications, including fullscreen mode.
 - **Builds database** — detailed weapon configurations for all four classes:
@@ -28,13 +28,13 @@ Instead of minimizing the game or searching for guides in a browser, this overla
 - **Stylish interface** — dark theme matching the game's style with icons and animations.
 - **Portable** — can be built into a single `.exe` file and run without Node.js installed.
 
-## Hotkeys
+## ⌨️ Hotkeys
 
 - **F5** — show or hide the overlay
 - **F6** — exit the application
 - **F7** — toggle language (Russian / English)
 
-## Installation and Running
+## 🚀 Installation and Running
 
 1. Install dependencies:
    ```bash
@@ -45,7 +45,7 @@ Instead of minimizing the game or searching for guides in a browser, this overla
    npm start
    ```
 
-## Build
+## 📦 Build
 
 To create a portable `.exe` version:
 ```bash
@@ -53,6 +53,6 @@ npm run build
 ```
 The output file will be in the `dist` folder.
 
-## License
+## 📄 License
 
 MIT License — Copyright (c) 2026 Ekcler
