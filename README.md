@@ -2,6 +2,8 @@
 
 🪨 A lightweight overlay for Deep Rock Galactic that displays weapon and class builds on top of the game.
 
+![Interface Screenshot](interface/inerface.png)
+
 ## What is this for
 
 Instead of minimizing the game or searching for guides in a browser, this overlay gives you instant access to the information you need without interrupting your gameplay.
