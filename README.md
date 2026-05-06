@@ -2,6 +2,10 @@
 
 🪨 A lightweight overlay for Deep Rock Galactic that displays weapon and class builds on top of the game.
 
+<p align="center">
+  <a href="./README.md">🇬🇧 English</a> | <a href="./README-ru.md">🇷🇺 Русский</a>
+</p>
+
 ![Interface Screenshot](interface/inerface.png)
 
 ## What is this for

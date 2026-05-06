@@ -2,6 +2,10 @@
 
 🪨 Удобный оверлей для Deep Rock Galactic, который показывает билды оружия и классов поверх игры.
 
+<p align="center">
+  <a href="./README.md">🇬🇧 English</a> | <a href="./README-ru.md">🇷🇺 Русский</a>
+</p>
+
 ![Скриншот интерфейса](interface/inerface.png)
 
 ## Зачем это нужно
